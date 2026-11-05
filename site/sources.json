@@ -33,7 +33,8 @@
   "kind": "page",
   "group": "Annuaire",
   "enabled": true,
-  "note": "rubrique Instagram ; vérifié le 05/11/2026"
+  "note": "rubrique Instagram ; vérifié le 05/11/2026",
+  "reseau": "Instagram"
  },
  {
   "id": "toutgagner-facebook",
@@ -42,7 +43,8 @@
   "kind": "page",
   "group": "Annuaire",
   "enabled": true,
-  "note": "rubrique Facebook (même site vérifié)"
+  "note": "rubrique Facebook (même site vérifié)",
+  "reseau": "Facebook"
  },
  {
   "id": "toutgagner-instagram",
@@ -51,7 +53,8 @@
   "kind": "page",
   "group": "Annuaire",
   "enabled": true,
-  "note": "rubrique Instagram (même site vérifié)"
+  "note": "rubrique Instagram (même site vérifié)",
+  "reseau": "Instagram"
  },
  {
   "id": "concours-du-net-facebook",
@@ -60,7 +63,8 @@
   "kind": "page",
   "group": "Annuaire",
   "enabled": true,
-  "note": "rubrique Facebook (même site vérifié)"
+  "note": "rubrique Facebook (même site vérifié)",
+  "reseau": "Facebook"
  },
  {
   "id": "lidl-plus",

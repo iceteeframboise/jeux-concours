@@ -15,7 +15,9 @@ shutil.copytree(ROOT / "site", out)
 shutil.copytree(ROOT / "extension" / "lib", out / "lib")
 (out / "data").mkdir()
 import json
-actives = {s["id"] for s in json.loads((ROOT / "site" / "sources.json").read_text(encoding="utf-8")) if s.get("enabled")}
+sources = json.loads((ROOT / "site" / "sources.json").read_text(encoding="utf-8"))
+actives = {s["id"] for s in sources if s.get("enabled")}
+reseau = {s["id"]: s["reseau"] for s in sources if s.get("reseau")}
 def lire(name, default):
     src = ROOT / "python" / name
     try:
@@ -25,6 +27,10 @@ def lire(name, default):
 # Seules les sources actives sont publiées (une source désactivée disparaît aussitôt).
 concours = lire("concours.json", {"generated": None, "items": []})
 concours["items"] = [i for i in concours.get("items", []) if i.get("sourceId") in actives]
+# Rubrique « concours Facebook / Instagram » : on l'indique pour le filtre par réseau.
+for i in concours["items"]:
+    if i.get("sourceId") in reseau and reseau[i["sourceId"]] not in i.get("categories", []):
+        i["categories"] = [*i.get("categories", []), reseau[i["sourceId"]]]
 etat = {k: v for k, v in lire("etat.json", {}).items() if k in actives}
 (out / "data" / "concours.json").write_text(json.dumps(concours, ensure_ascii=False), encoding="utf-8")
 (out / "data" / "etat.json").write_text(json.dumps(etat, ensure_ascii=False, indent=1), encoding="utf-8")
