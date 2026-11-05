@@ -67,6 +67,24 @@
   "reseau": "Facebook"
  },
  {
+  "id": "ledemondujeu",
+  "name": "Le Démon du Jeu",
+  "url": "https://www.ledemondujeu.com/selection-concours.html",
+  "kind": "page",
+  "group": "Annuaire",
+  "enabled": true,
+  "note": "vérifié le 05/11/2026 : robots.txt OK, CGU sans interdiction"
+ },
+ {
+  "id": "jeux-concours-gagnants",
+  "name": "Jeux Concours Gagnants",
+  "url": "https://www.jeux-concours-gagnants.com/feed",
+  "kind": "rss",
+  "group": "Annuaire",
+  "enabled": true,
+  "note": "flux RSS ; vérifié le 05/11/2026"
+ },
+ {
   "id": "lidl-plus",
   "name": "Lidl – jeux-concours Lidl Plus",
   "url": "https://www.lidl.fr/c/jeux-concours-lidl-plus/s10072468",

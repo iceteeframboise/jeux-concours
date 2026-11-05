@@ -11,6 +11,12 @@ robots.txt, flux RSS, lecture des CGU à la recherche des clauses sur l'extracti
 | Concours.fr | robots.txt OK · **flux RSS** · CGU sans interdiction | ✅ activée (RSS) |
 | Concours du Net (+ rubrique Instagram) | robots.txt OK · 46 concours · CGU sans interdiction | ✅ activée |
 | Lidl – jeux-concours Lidl Plus | robots.txt OK · CGU sans interdiction | ✅ activée |
+| Le Démon du Jeu | robots.txt OK · 69 concours · CGU sans interdiction | ✅ activée |
+| Jeux Concours Gagnants | robots.txt OK · **flux RSS** · CGU sans interdiction | ✅ activée (RSS) |
+| Offres à saisir | CGU : l'usage de robots est une faute | ❌ |
+| Jeux Concours Gratuits (jeuxconcoursgratuits.fr) | CGU : « toute reproduction est interdite » | ❌ |
+| Bons Plans Mania | CGU : « toute reproduction non autorisée est interdite » | ❌ |
+| Le Paradis des Jeux Concours | 8 concours, site à abonnement payant | ❌ |
 | **Jeu-Concours.biz** | robots.txt OK mais **CGU : « interdiction de l'extraction automatisée »** | ❌ désactivée |
 | Coca-Cola | CGU : interdit robots / « web scraping » | ❌ |
 | Michel et Augustin | CGU : interdit l'extraction | ❌ |

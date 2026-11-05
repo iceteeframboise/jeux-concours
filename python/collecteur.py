@@ -143,6 +143,7 @@ class Fetcher:
         wait = self.last_hit.get(host, 0) + self.pause - time.time()
         if wait > 0:
             time.sleep(wait)
+        url = urllib.parse.quote(url, safe=":/?&=%#+,;@~!$'()*[]")  # adresses avec accents
         req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept-Language": "fr-FR,fr"})
         try:
             with urllib.request.urlopen(req, timeout=20) as r:
