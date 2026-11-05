@@ -1,0 +1,8 @@
+[
+ {"id": "jeuxconcoursgratuits", "name": "Jeux Concours Gratuits", "url": "https://jeuxconcoursgratuits.fr/concours", "kind": "auto", "enabled": true},
+ {"id": "ledemondujeu", "name": "Le Démon du Jeu", "url": "https://www.ledemondujeu.com/selection-concours.html", "kind": "auto", "enabled": true},
+ {"id": "jeux-concours-gagnants", "name": "Jeux Concours Gagnants", "url": "https://www.jeux-concours-gagnants.com/", "kind": "auto", "enabled": true},
+ {"id": "offresasaisir", "name": "Offres à saisir", "url": "https://www.offresasaisir.fr/jeux-concours", "kind": "auto", "enabled": true},
+ {"id": "bonsplansmania", "name": "Bons Plans Mania", "url": "https://bonsplansmania.fr/categorie/concours", "kind": "auto", "enabled": true},
+ {"id": "leparadisdesjeuxconcours", "name": "Le Paradis des Jeux Concours", "url": "https://www.leparadisdesjeuxconcours.fr/", "kind": "auto", "enabled": true}
+]
