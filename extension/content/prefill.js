@@ -246,7 +246,8 @@
     if (!bar) {
       const host = document.createElement('div');
       host.id = 'jeux-concours-helper';
-      host.style.cssText = 'position:fixed;z-index:2147483647;right:16px;bottom:16px;';
+      const narrow = window.innerWidth <= 520;
+      host.style.cssText = `position:fixed;z-index:2147483647;bottom:${narrow ? 8 : 16}px;right:${narrow ? 8 : 16}px;${narrow ? 'left:8px;' : ''}`;
       const root = host.attachShadow({ mode: 'open' });
       root.innerHTML = `<style>
         .b{font:14px/1.4 system-ui,sans-serif;background:#fff;color:#202124;border:2px solid #1a73e8;border-radius:10px;
@@ -256,6 +257,8 @@
         button.p{background:#1a73e8;color:#fff} .x{position:absolute;top:2px;right:6px;background:none;padding:2px 4px;color:#5f6368}
         .ok{border-color:#1e8e3e} .win{border-color:#f29900}
         .k{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+        @media (pointer:coarse){button{padding:10px 14px;font-size:15px} .x{padding:6px 10px}}
+        @media (max-width:520px){.b{max-width:none}}
       </style><div class="b" part="box"><button class="x" title="Fermer">✕</button><div class="t"></div><div class="m"></div><div class="r"></div></div>`;
       document.documentElement.appendChild(host);
       bar = root;

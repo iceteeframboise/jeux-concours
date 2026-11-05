@@ -22,7 +22,7 @@ Une extension de navigateur qui :
 
 1. [Comment ça marche (architecture)](#1-comment-ça-marche-architecture)
 2. [Installer dans Chrome](#2-installer-dans-chrome)
-3. [Installer dans Firefox](#3-installer-dans-firefox)
+3. [Installer dans Firefox](#3-installer-dans-firefox) · [**sur tablette Android**](#3-bis-installer-sur-une-tablette-android)
 4. [Premier démarrage](#4-premier-démarrage)
 5. [Utilisation au quotidien](#5-utilisation-au-quotidien)
 6. [Le script Python (solution de secours)](#6-le-script-python-solution-de-secours)
@@ -74,6 +74,7 @@ des pages de concours que vous choisissez.
 | `python/collecteur.py` | script de secours qui alimente l'extension |
 | `docs/SOURCES.md` | sources proposées et comment les vérifier |
 | `tests/` | tests automatiques |
+| `dist/*.xpi` | fichier d'installation pour Firefox / Android (`python3 tools/build_xpi.py`) |
 
 ---
 
@@ -131,6 +132,60 @@ sauvegarde** pour ne rien perdre.
 
 Dans Firefox, le panneau latéral s'ouvre avec le bouton ▥ de la fenêtre, ou par le menu
 **Affichage → Barre latérale → Jeux-Concours**.
+
+---
+
+## 3 bis. Installer sur une tablette Android
+
+Chrome pour Android n'accepte aucune extension. Il faut **Firefox Nightly** (la version de test de
+Firefox, gratuite) : c'est la seule version Android qui accepte une extension non publiée.
+
+### Étape 1 – Installer Firefox Nightly
+Play Store → cherchez **« Firefox Nightly »** (éditeur Mozilla) → Installer → ouvrez-le.
+
+### Étape 2 – Autoriser les extensions non signées
+1. Dans la barre d'adresse de Firefox Nightly, tapez `about:config` puis Entrée.
+2. Dans le champ de recherche, tapez `xpinstall.signatures.required`.
+3. Touchez le bouton pour passer la valeur de **true** à **false**.
+
+### Étape 3 – Afficher le menu caché « installer depuis un fichier »
+1. Menu **⋮** → **Paramètres** → tout en bas **« À propos de Firefox Nightly »**.
+2. Touchez **5 fois de suite le logo Firefox** jusqu'au message « Debug menu enabled » (menu de
+   débogage activé).
+3. Revenez dans **Paramètres** : une nouvelle ligne **« Installer un module complémentaire depuis
+   un fichier »** est apparue (parfois en anglais : « Install add-on from file »).
+
+> Les noms de menus de Nightly changent parfois d'une version à l'autre. Si vous ne trouvez pas
+> une ligne, décrivez-moi ce que vous voyez.
+
+### Étape 4 – Télécharger le fichier de l'extension
+Sur la tablette, ouvrez la page GitHub du projet, choisissez la branche
+`claude/browser-extension-contests-france-vwbgwi`, ouvrez le dossier **`dist`**, touchez
+**`jeux-concours-0.4.0.xpi`** puis le bouton de téléchargement (⤓ « Download raw file »).
+Le fichier arrive dans le dossier **Téléchargements**.
+(Si le dépôt est privé, connectez-vous d'abord à GitHub dans le navigateur.)
+
+### Étape 5 – Installer
+**Paramètres → « Installer un module complémentaire depuis un fichier »** → choisissez
+`jeux-concours-0.4.0.xpi` dans Téléchargements → **Ajouter**. Acceptez les autorisations.
+
+### Étape 6 – Utiliser
+* Ouvrir la liste : menu **⋮ → Extensions → Jeux-Concours** (elle s'affiche en plein écran,
+  avec de gros boutons adaptés au doigt).
+* Profil et sources : menu **⋮ → Extensions → Gérer les extensions → Jeux-Concours →
+  Paramètres**. Touchez aussi **« Autoriser l'accès aux sites »**, sinon le pré-remplissage ne
+  marche pas.
+* Le reste fonctionne comme sur ordinateur (section 5), sauf : pas de panneau latéral, pas de
+  badge visible sur une icône, et Android peut retarder les notifications de rappel.
+* Le script Python (section 6) n'est pas utilisable sur tablette ; il n'est normalement pas
+  nécessaire.
+
+### Mettre à jour
+Quand une nouvelle version du fichier `.xpi` est disponible, refaites les étapes 4 et 5 : vos
+données (profil, historique, gains) sont conservées. Par précaution, faites avant
+**Options → Exporter une sauvegarde**.
+
+<img src="docs/captures/3-tablette.png" width="320" alt="La liste sur tablette">
 
 ---
 

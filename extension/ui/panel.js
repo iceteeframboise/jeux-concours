@@ -296,6 +296,8 @@ $('#btn-refresh').addEventListener('click', async () => {
 // L'ouverture du panneau latéral doit se faire immédiatement dans le clic
 // (exigence des navigateurs), d'où la récupération de la fenêtre à l'avance.
 let windowId = null;
+// Pas de panneau latéral sur Android : on cache le bouton.
+if (!api.sidePanel?.open && !api.sidebarAction?.open) $('#btn-sidepanel').hidden = true;
 api.windows?.getCurrent().then((w) => { windowId = w.id; }).catch(() => {});
 $('#btn-sidepanel').addEventListener('click', () => {
   const fallback = () => api.tabs.create({ url: api.runtime.getURL('ui/panel.html?full=1') });

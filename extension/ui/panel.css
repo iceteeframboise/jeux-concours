@@ -45,3 +45,16 @@ form.card { display: grid; gap: 6px; }
 .item { display: flex; gap: 8px; align-items: center; }
 .item .grow { flex: 1; }
 .notice { border-color: var(--warn); }
+
+/* Tablette / téléphone (Firefox pour Android) : pleine largeur, zones tactiles plus grandes */
+@media (pointer: coarse), (max-width: 600px) {
+  body { width: auto; max-width: 900px; margin: 0 auto; font-size: 15px; }
+  button, nav button { min-height: 42px; padding: 8px 12px; }
+  .top button { min-width: 44px; font-size: 18px; }
+  .filters input, .filters select, form input, select, input { min-height: 42px; font-size: 16px; }
+  .filters label { min-height: 36px; }
+  .filters input[type=checkbox], .fam-editor input, .item input[type=checkbox] { width: 22px; height: 22px; min-height: 0; }
+  .fam-editor label { min-height: 36px; }
+  .prize { font-size: 16px; }
+  .actions { gap: 8px; }
+}
