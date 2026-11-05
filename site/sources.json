@@ -36,6 +36,33 @@
   "note": "rubrique Instagram ; vérifié le 05/11/2026"
  },
  {
+  "id": "toutgagner-facebook",
+  "name": "Toutgagner – Facebook",
+  "url": "https://www.toutgagner.com/jeux-concours/gagner-concours-jeux-facebook.html",
+  "kind": "page",
+  "group": "Annuaire",
+  "enabled": true,
+  "note": "rubrique Facebook (même site vérifié)"
+ },
+ {
+  "id": "toutgagner-instagram",
+  "name": "Toutgagner – Instagram",
+  "url": "https://www.toutgagner.com/jeux-concours/gagner-concours-jeux-instagram.html",
+  "kind": "page",
+  "group": "Annuaire",
+  "enabled": true,
+  "note": "rubrique Instagram (même site vérifié)"
+ },
+ {
+  "id": "concours-du-net-facebook",
+  "name": "Concours du Net – Facebook",
+  "url": "https://www.concours-du-net.com/concours-facebook",
+  "kind": "page",
+  "group": "Annuaire",
+  "enabled": true,
+  "note": "rubrique Facebook (même site vérifié)"
+ },
+ {
   "id": "lidl-plus",
   "name": "Lidl – jeux-concours Lidl Plus",
   "url": "https://www.lidl.fr/c/jeux-concours-lidl-plus/s10072468",
