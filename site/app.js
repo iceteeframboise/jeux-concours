@@ -47,14 +47,22 @@ function toast(msg) {
 let previousVisit = S.lastVisit;
 let sourceState = {};
 let generated = null;
+let sourceNames = {};
 
 async function loadData() {
   const now = new Date();
   try {
-    const [c, e] = await Promise.all([
+    const [c, e, srcs] = await Promise.all([
       fetch('data/concours.json', { cache: 'no-cache' }).then((r) => r.json()),
       fetch('data/etat.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => ({})),
+      fetch('sources.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => null),
     ]);
+    // Concours venant uniquement de sources désactivées : retirés de la liste (l'historique reste).
+    if (Array.isArray(srcs)) {
+      const actives = new Set(srcs.filter((x) => x.enabled).map((x) => x.id));
+      S.contests = S.contests.filter((x) => x.manual || (x.sources || []).some((id) => actives.has(id)));
+      sourceNames = Object.fromEntries(srcs.map((x) => [x.id, x.name]));
+    }
     generated = c.generated;
     sourceState = e;
     const fresh = [];
@@ -264,7 +272,7 @@ function renderSources() {
   box.innerHTML = '';
   box.append(el('p', { class: 'muted' }, generated ? `Dernière collecte : ${new Date(generated).toLocaleString('fr-FR')}` : 'Aucune collecte pour l\'instant.'));
   for (const [id, s] of Object.entries(sourceState)) {
-    box.append(el('div', {}, el('span', { class: s.ok ? 'ok' : 'warn' }, s.ok ? '✓ ' : '✗ '), `${id} : ${s.note || ''}${s.count != null ? ` (${s.count})` : ''}`));
+    box.append(el('div', {}, el('span', { class: s.ok ? 'ok' : 'warn' }, s.ok ? '✓ ' : '✗ '), `${sourceNames[id] || id} : ${s.note || ''}${s.count != null ? ` (${s.count})` : ''}`));
   }
 }
 

@@ -25,6 +25,9 @@ export async function load(keys = Object.keys(DEFAULTS)) {
     const ids = new Set(out.sources.map((s) => s.id));
     // Elles arrivent décochées : c'est à vous de lire leurs CGU avant de les activer.
     if (data.sources) for (const s of DEFAULT_SOURCES) if (!ids.has(s.id)) out.sources.push({ ...s, enabled: false });
+    // Source dont les CGU interdisent la collecte : toujours désactivée.
+    const forbidden = new Set(DEFAULT_SOURCES.filter((s) => s.cguInterdit).map((s) => s.id));
+    for (const s of out.sources) if (forbidden.has(s.id)) Object.assign(s, { enabled: false, cguInterdit: true, note: DEFAULT_SOURCES.find((d) => d.id === s.id).note });
   }
   return out;
 }

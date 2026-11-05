@@ -49,7 +49,7 @@ async function renderSources() {
     const tr = document.createElement('tr');
     const next = st?.lastRun ? new Date(st.lastRun + MIN_INTERVAL_MS) : null;
     tr.innerHTML = `
-      <td><input type="checkbox" ${s.enabled ? 'checked' : ''}></td>
+      <td><input type="checkbox" ${s.enabled ? 'checked' : ''} ${s.cguInterdit ? 'disabled title="CGU : collecte interdite"' : ''}></td>
       <td><b></b> <span class="muted"></span><br><a target="_blank" rel="noopener"></a><br><small class="muted note"></small><div class="test"></div></td>
       <td>${st ? `<span class="${st.ok ? 'ok' : 'ko'}">${st.ok ? '✓' : '✗'}</span> ${new Date(st.lastRun).toLocaleString('fr-FR')}<br><small></small>` : '<span class="muted">jamais</span>'}</td>
       <td><button class="t">Tester</button> ${s.custom ? '<button class="d">Supprimer</button>' : ''}</td>`;

@@ -22,6 +22,7 @@ items = collecteur.parse_feed(open(${JSON.stringify(path.join(root, 'tests/fixtu
 for i in items: i['sourceId'] = 'test'
 print(json.dumps(items))`]).toString());
 writeFileSync(path.join(out, 'data/concours.json'), JSON.stringify({ generated: new Date().toISOString(), items }));
+writeFileSync(path.join(out, 'sources.json'), JSON.stringify([{ id: 'test', name: 'Annuaire test', enabled: true }, { id: 'vieux', name: 'Ancienne source', enabled: false }]));
 writeFileSync(path.join(out, 'data/etat.json'), JSON.stringify({ test: { ok: true, note: 'flux RSS', count: items.length } }));
 
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webmanifest': 'application/manifest+json' };
@@ -45,12 +46,17 @@ const errors = [];
 try {
   const page = await ctx.newPage();
   page.on('pageerror', (e) => errors.push(e.message));
+  // Un concours venant d'une source désormais désactivée, déjà enregistré sur l'appareil
+  await page.goto(url + 'manifest.webmanifest');
+  await page.evaluate(() => localStorage.setItem('jeux-concours-v1', JSON.stringify({ contests: [
+    { id: 'old', title: 'Ancien concours', prize: 'Ancien concours', families: ['autres'], sources: ['vieux'], firstSeen: Date.now(), link: 'https://x.example/' }] })));
   await page.goto(url);
   await page.waitForSelector('article.contest');
   const groups = await page.$$eval('details.group > summary', (s) => s.map((x) => x.textContent.trim()));
   console.log('    familles :', groups.join(' | '));
   assert.equal(await page.$$eval('article.contest', (a) => new Set(a.map((x) => x.querySelector('.prize').textContent)).size), 3);
-  ok('3 concours gratuits, classés par famille (payants écartés)');
+  assert.equal(await page.locator('article.contest', { hasText: 'Ancien concours' }).count(), 0);
+  ok('3 concours gratuits, classés par famille (payants écartés) ; source désactivée retirée');
   await page.screenshot({ path: path.join(shots, 'site-liste.png') });
 
   // Profil + copie

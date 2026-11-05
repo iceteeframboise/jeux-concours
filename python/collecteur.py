@@ -51,14 +51,83 @@ RETRY_AFTER_ERROR = 3600
 PAUSE = 2.0                  # secondes entre deux requêtes
 
 DEFAULT_SOURCES = [
-    {"id": "jeu-concours-biz", "name": "Jeu-Concours.biz", "url": "https://www.jeu-concours.biz/", "kind": "auto", "enabled": True},
-    {"id": "toutgagner", "name": "Toutgagner", "url": "https://www.toutgagner.com/", "kind": "auto", "enabled": False},
-    {"id": "concoursmania", "name": "Concoursmania", "url": "https://www.concoursmania.com/", "kind": "auto", "enabled": False},
-    {"id": "jeux-concours-fr", "name": "Jeuxconcours.fr", "url": "https://www.jeuxconcours.fr/", "kind": "auto", "enabled": False},
-    {"id": "dna", "name": "DNA", "url": "https://www.dna.fr/jeux-concours", "kind": "auto", "enabled": False},
-    {"id": "lalsace", "name": "L'Alsace", "url": "https://www.lalsace.fr/jeux-concours", "kind": "auto", "enabled": False},
-    {"id": "estrepublicain", "name": "L'Est Républicain", "url": "https://www.estrepublicain.fr/jeux-concours", "kind": "auto", "enabled": False},
-    {"id": "republicain-lorrain", "name": "Le Républicain Lorrain", "url": "https://www.republicain-lorrain.fr/jeux-concours", "kind": "auto", "enabled": False},
+    {
+        "id": "toutgagner",
+        "name": "Toutgagner",
+        "url": "https://www.toutgagner.com/",
+        "kind": "auto",
+        "enabled": True
+    },
+    {
+        "id": "concours-fr",
+        "name": "Concours.fr",
+        "url": "https://www.concours.fr/feed/",
+        "kind": "rss",
+        "enabled": True
+    },
+    {
+        "id": "concours-du-net",
+        "name": "Concours du Net",
+        "url": "https://www.concours-du-net.com/",
+        "kind": "auto",
+        "enabled": True
+    },
+    {
+        "id": "concours-du-net-instagram",
+        "name": "Concours du Net – Instagram",
+        "url": "https://www.concours-du-net.com/concours-instagram",
+        "kind": "page",
+        "enabled": True
+    },
+    {
+        "id": "lidl-plus",
+        "name": "Lidl – jeux-concours Lidl Plus",
+        "url": "https://www.lidl.fr/c/jeux-concours-lidl-plus/s10072468",
+        "kind": "page",
+        "enabled": True
+    },
+    {
+        "id": "jeu-concours-biz",
+        "name": "Jeu-Concours.biz",
+        "url": "https://www.jeu-concours.biz/",
+        "kind": "auto",
+        "enabled": False
+    },
+    {
+        "id": "coca-cola",
+        "name": "Coca-Cola",
+        "url": "https://www.coca-cola.com/fr/fr",
+        "kind": "auto",
+        "enabled": False
+    },
+    {
+        "id": "dna",
+        "name": "DNA",
+        "url": "https://www.dna.fr/jeux-concours",
+        "kind": "auto",
+        "enabled": False
+    },
+    {
+        "id": "estrepublicain",
+        "name": "L'Est Républicain",
+        "url": "https://www.estrepublicain.fr/jeux-concours",
+        "kind": "auto",
+        "enabled": False
+    },
+    {
+        "id": "republicain-lorrain",
+        "name": "Le Républicain Lorrain",
+        "url": "https://www.republicain-lorrain.fr/jeux-concours",
+        "kind": "auto",
+        "enabled": False
+    },
+    {
+        "id": "vosgesmatin",
+        "name": "Vosges Matin",
+        "url": "https://www.vosgesmatin.fr/jeux-concours",
+        "kind": "auto",
+        "enabled": False
+    }
 ]
 
 
@@ -363,12 +432,10 @@ def run_discover(report_path: Path | None = None, fetcher: Fetcher | None = None
             ok, note = fetcher.robots_allows(src["url"])
             r["robots"] = note
             if not ok:
-                report.append(r)
                 continue
             status, text = fetcher.get(src["url"])
             r["http"] = status
             if status >= 400:
-                report.append(r)
                 continue
             p = LinkParser(src["url"])
             p.feed(text)
@@ -389,8 +456,9 @@ def run_discover(report_path: Path | None = None, fetcher: Fetcher | None = None
                     r["cgu_extraits"] = hits[:3]
         except Exception as e:  # noqa: BLE001
             r["erreur"] = str(e)[:120]
-        report.append(r)
-        print("RAPPORT " + json.dumps(r, ensure_ascii=False), flush=True)
+        finally:
+            report.append(r)
+            print("RAPPORT " + json.dumps(r, ensure_ascii=False), flush=True)
     if report_path:
         report_path.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
     return report
