@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { classify } from '../extension/lib/categories.js';
-import { detectType, paidReason, extractValue, extractEndDate, extractOrganizer, extractPrize } from '../extension/lib/analyze.js';
+import { detectPlatform, detectType, paidReason, extractValue, extractEndDate, extractOrganizer, extractPrize } from '../extension/lib/analyze.js';
 import { parseFeed, discoverFeeds, contestLinksFromPage, findOutboundLinks, looksLikeFeed } from '../extension/lib/feeds.js';
 import { isAllowed } from '../extension/lib/robots.js';
 import { canonicalUrl, mergeContests, isSameContest } from '../extension/lib/dedupe.js';
@@ -51,6 +51,17 @@ test('type de concours', () => {
   assert.equal(detectType('Concours Instagram : abonnez-vous et commentez').type, 'social');
   assert.equal(detectType('Concours photo : envoyez votre photo de vacances').type, 'creatif');
   assert.equal(detectType('Grand tirage au sort de Noël').type, 'tirage');
+});
+
+test('plateforme (Facebook, Instagram…)', () => {
+  assert.equal(detectPlatform('', 'https://www.instagram.com/p/abc/'), 'instagram');
+  assert.equal(detectPlatform('', 'https://m.facebook.com/marque/posts/1'), 'facebook');
+  assert.equal(detectPlatform('Concours Insta : gagnez un sac', 'https://annuaire.example/x'), 'instagram');
+  assert.equal(detectPlatform('Jeu Facebook Milka'), 'facebook');
+  assert.equal(detectPlatform('Gagnez une PS5', 'https://sony.example/jeu'), 'web');
+  const c = buildContest({ title: 'Gagnez un sac à main', link: 'https://www.instagram.com/p/xyz/' }, { id: 't' }, NOW).contest;
+  assert.equal(c.platform, 'instagram');
+  assert.equal(c.type, 'social');
 });
 
 test('exclusion des jeux payants', () => {

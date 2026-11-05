@@ -7,6 +7,8 @@
     --accent: #8ab4f8; --accent-fg: #202124; --ok: #81c995; --warn: #f28b82; --chip: #303846; }
 }
 * { box-sizing: border-box; }
+/* « hidden » doit toujours gagner, même sur un élément en display:flex/grid */
+[hidden] { display: none !important; }
 html, body { margin: 0; background: var(--bg); color: var(--fg); font: 13px/1.4 system-ui, sans-serif; }
 body { width: 440px; min-height: 560px; }
 body.full { width: auto; max-width: 900px; margin: 0 auto; }

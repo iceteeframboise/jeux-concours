@@ -92,6 +92,8 @@ export function extractAnchors(html, baseUrl) {
 }
 
 const CONTEST_HINT = /concours|gagne|gagner|a gagner|tirage|instant gagnant|remporte|jeu-|\/jeux?\//;
+// Liens de rubrique (« Concours Instagram », « Jeux concours gratuits »…) : ce ne sont pas des concours.
+const CATEGORY_LINK = /^(les |tous les |toutes les )?(jeux?[- ])?concours( gratuits?)?( (sur )?(facebook|instagram|tiktok|twitter|x|reseaux sociaux|du jour|en cours|qui finissent.*|quotidiens?|instants? gagnants?))?$/;
 const NAV_NOISE = /reglement|mentions legales|cgu|confidentialite|cookies|connexion|inscription|newsletter|contact|^jeux?(-| )concours$|toutes les|voir plus|page suivante|^\d+$/;
 
 /**
@@ -105,7 +107,7 @@ export function contestLinksFromPage(html, baseUrl) {
     const t = normalize(a.text);
     const h = normalize(a.href);
     if (t.length < 15 || t.length > 250) continue;
-    if (NAV_NOISE.test(t)) continue;
+    if (NAV_NOISE.test(t) || CATEGORY_LINK.test(t)) continue;
     if (!CONTEST_HINT.test(t) && !CONTEST_HINT.test(h)) continue;
     if (h.split('#')[0] === normalize(baseUrl).split('#')[0]) continue;
     if (seen.has(a.href)) continue;

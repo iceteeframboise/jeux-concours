@@ -11,6 +11,24 @@ export const TYPES = {
   creatif: 'Photo / créatif',
 };
 
+export const PLATFORMS = { web: 'Site web', facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', x: 'X (Twitter)' };
+
+/** Où se joue le concours : sur un site web ou sur un réseau social. */
+export function detectPlatform(text = '', url = '') {
+  let host = '';
+  try { host = new URL(url).hostname.replace(/^www\.|^m\./, ''); } catch { /* lien absent */ }
+  if (/(^|\.)(facebook\.com|fb\.com|fb\.me|fb\.watch)$/.test(host)) return 'facebook';
+  if (/(^|\.)(instagram\.com|instagr\.am)$/.test(host)) return 'instagram';
+  if (/(^|\.)tiktok\.com$/.test(host)) return 'tiktok';
+  if (/(^|\.)(x\.com|twitter\.com)$/.test(host)) return 'x';
+  const t = normalize(text);
+  if (/instagram|\binsta\b/.test(t)) return 'instagram';
+  if (/facebook|\bfb\b/.test(t)) return 'facebook';
+  if (/tiktok/.test(t)) return 'tiktok';
+  if (/twitter|\bsur x\b|\bx\.com/.test(t)) return 'x';
+  return 'web';
+}
+
 /** Type principal + indicateur "quotidien" (on peut rejouer chaque jour). */
 export function detectType(text) {
   const t = normalize(text);

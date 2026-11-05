@@ -43,7 +43,8 @@ class CollecteurTest(unittest.TestCase):
                  '<a href="/mentions">Mentions légales</a></html>',
             "/feed": RSS,
             "/interdit": "<a href='/x'>Gagnez une voiture neuve</a>",
-            "/page": "<a href='/jeux/1'>Gagnez un séjour en Alsace pour deux</a><a href='/contact'>Contact</a>",
+            "/page": "<a href='/jeux/1'>Gagnez un séjour en Alsace pour deux</a><a href='/contact'>Contact</a>"
+                     "<a href='/concours-instagram'>Concours Instagram</a><a href='https://facebook.com/x'>Facebook</a>",
         }
 
     @classmethod
@@ -73,6 +74,9 @@ class CollecteurTest(unittest.TestCase):
         self.assertFalse(etat["non"]["ok"])
         self.assertEqual(etat["non"]["note"], "interdit par robots.txt")
         self.assertEqual(out["items"][0]["title"], "Jeu concours Sony : gagnez une PS5 et 2 manettes")
+        etat = json.loads(collecteur.STATE_FILE.read_text())
+        self.assertIn(self.base + "/concours-instagram", etat["page"]["note"])
+        self.assertNotIn("facebook.com", etat["page"]["note"])
         # 2e passage 1 h plus tard : rien n'est re-téléchargé, les éléments sont conservés
         HITS.clear()
         out2 = collecteur.run_collect(collecteur.Fetcher(pause=0), now=1_000_000 + 3600)

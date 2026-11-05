@@ -26,6 +26,10 @@ Pas d'installation : un lien à ouvrir, que l'on peut ajouter à l'écran d'accu
   participé ? ».
 * **Mes infos** : votre profil, avec un bouton 📋 pour copier chaque information. Encore plus simple :
   enregistrez votre adresse dans le remplissage automatique du navigateur (expliqué dans l'onglet).
+* **Facebook / Instagram / TikTok** : filtre « Partout / Facebook / Instagram… ». Ces réseaux interdisent
+  la collecte automatique (connexion obligatoire, conditions d'utilisation) : les concours qui s'y jouent
+  viennent donc des annuaires, ou de vous. Dans l'appli Facebook ou Instagram, touchez **Partager →
+  Jeux-Concours** sur une publication de concours : elle s'ajoute à votre liste (onglet **➕ Ajouter**).
 * Vos données restent **dans le navigateur de votre appareil** (rien n'est envoyé à GitHub).
 
 Différence avec l'extension : un site n'a pas le droit d'écrire dans les pages d'autres sites, donc

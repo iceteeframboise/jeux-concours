@@ -1,7 +1,10 @@
 // Site Jeux-Concours : affiche les concours collectés chaque jour par GitHub.
 // Toutes vos données (profil, historique, gains) restent dans CE navigateur.
 import { FAMILIES, FAMILY_BY_ID } from './lib/categories.js';
-import { TYPES } from './lib/analyze.js';
+import { TYPES, PLATFORMS, detectPlatform, detectType, extractEndDate } from './lib/analyze.js';
+import { classify } from './lib/categories.js';
+import { canonicalUrl } from './lib/dedupe.js';
+import { hash } from './lib/text.js';
 import { buildContest } from './lib/pipeline.js';
 import { mergeContests } from './lib/dedupe.js';
 import { applyFilters, sortContests, groupByFamily, lastPlayedMap, dailyTodo, endingSoon, familiesOf } from './lib/filters.js';
@@ -34,6 +37,7 @@ function el(tag, attrs = {}, ...children) {
 }
 
 function toast(msg) {
+  document.querySelectorAll('.toast').forEach((x) => x.remove());
   const t = el('div', { class: 'toast' }, msg);
   document.body.append(t);
   setTimeout(() => t.remove(), 2200);
@@ -88,7 +92,7 @@ function askIfPlayed() {
   $('#ask').hidden = false;
 }
 $('#ask-yes').addEventListener('click', () => {
-  markPlayed(S.pending.id);
+  if (S.pending) markPlayed(S.pending.id);
   S.pending = null;
   persist();
   $('#ask').hidden = true;
@@ -119,6 +123,7 @@ function card(c, lp) {
     const soon = c.endDate <= addDays(today, 1);
     parts.push(el('span', { class: soon ? 'soon' : '' }, `⏳ fin ${c.endDate === today ? "aujourd'hui" : formatFr(c.endDate)}`));
   } else parts.push(el('span', {}, '⏳ fin non indiquée'));
+  if (c.platform && c.platform !== 'web') parts.push(el('span', {}, `📲 ${PLATFORMS[c.platform]}`));
   parts.push(el('span', {}, `🎲 ${TYPES[c.type] || c.type}${c.daily && c.type !== 'quotidien' ? ' · quotidien' : ''}`));
   if (c.value) parts.push(el('span', {}, `💶 ${Math.round(c.value).toLocaleString('fr-FR')} €`));
   if (lp[c.id]) parts.push(el('span', {}, `✓ joué le ${formatFr(lp[c.id])}`));
@@ -162,6 +167,7 @@ function card(c, lp) {
 function filterOpts() {
   return {
     search: $('#f-search').value, family: $('#f-family').value, type: $('#f-type').value, end: $('#f-end').value,
+    platform: $('#f-platform').value,
     sort: $('#f-sort').value, notPlayed: $('#f-notplayed').checked, dailyTodo: $('#f-dailytodo').checked,
   };
 }
@@ -325,13 +331,14 @@ function initProfile() {
 // ---------- filtres ----------
 for (const f of FAMILIES) $('#f-family').append(el('option', { value: f.id }, `${f.emoji} ${f.label}`));
 for (const [k, v] of Object.entries(TYPES)) $('#f-type').append(el('option', { value: k }, v));
+for (const [k, v] of Object.entries(PLATFORMS)) $('#f-platform').append(el('option', { value: k }, v));
 try {
   const f = JSON.parse(localStorage.getItem(FILTER_KEY) || '{}');
-  for (const [k, id] of [['family', '#f-family'], ['type', '#f-type'], ['end', '#f-end'], ['sort', '#f-sort']]) if (f[k]) $(id).value = f[k];
+  for (const [k, id] of [['family', '#f-family'], ['type', '#f-type'], ['platform', '#f-platform'], ['end', '#f-end'], ['sort', '#f-sort']]) if (f[k]) $(id).value = f[k];
   $('#f-notplayed').checked = !!f.notPlayed;
   $('#f-dailytodo').checked = !!f.dailyTodo;
 } catch { /* rien */ }
-for (const id of ['#f-search', '#f-family', '#f-type', '#f-end', '#f-sort', '#f-notplayed', '#f-dailytodo']) {
+for (const id of ['#f-search', '#f-family', '#f-type', '#f-platform', '#f-end', '#f-sort', '#f-notplayed', '#f-dailytodo']) {
   $(id).addEventListener('input', () => {
     try { localStorage.setItem(FILTER_KEY, JSON.stringify(filterOpts())); } catch { /* rien */ }
     renderList(lastPlayedMap(S.history));
@@ -350,7 +357,62 @@ $('#win-form').addEventListener('submit', (e) => {
   renderWins();
 });
 
+// ---------- ajout manuel (Facebook, Instagram…) ----------
+function initAdd() {
+  const form = $('#add-form');
+  for (const [k, v] of Object.entries(PLATFORMS)) form.platform.append(el('option', { value: k }, v));
+  for (const [k, v] of Object.entries(TYPES)) form.type.append(el('option', { value: k }, v));
+  // Deviner la plateforme et le type dès que le lien est collé.
+  form.link.addEventListener('input', () => {
+    const p = detectPlatform('', form.link.value);
+    form.platform.value = p;
+    if (p !== 'web') form.type.value = 'social';
+  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const link = form.link.value.trim();
+    const prize = form.prize.value.trim();
+    const contest = {
+      id: 'm' + hash(canonicalUrl(link)), title: prize, prize, organizer: form.organizer.value.trim(),
+      value: null, link, formUrl: link, rulesUrl: null, endDate: form.endDate.value || null,
+      type: form.type.value, daily: form.daily.checked, platform: form.platform.value,
+      families: classify(prize), description: '', sources: ['ajout manuel'], manual: true,
+      firstSeen: Date.now(), updated: Date.now(),
+    };
+    S.contests = S.contests.filter((c) => c.id !== contest.id);
+    S.contests.push(contest);
+    persist();
+    form.reset();
+    toast('Concours ajouté à votre liste ✓');
+    render();
+    switchTab('list');
+  });
+}
+
+/** Partage depuis Facebook/Instagram (« Partager → Jeux-Concours ») : on pré-remplit le formulaire d'ajout. */
+function handleShare() {
+  const q = new URLSearchParams(location.search);
+  if (!['partage_url', 'partage_texte', 'partage_titre'].some((k) => q.has(k))) return;
+  const text = `${q.get('partage_titre') || ''} ${q.get('partage_texte') || ''}`.trim();
+  const link = q.get('partage_url') || (text.match(/https?:\/\/\S+/) || [''])[0];
+  const rest = text.replace(link, '').replace(/\s+/g, ' ').trim();
+  const form = $('#add-form');
+  form.link.value = link;
+  form.link.dispatchEvent(new Event('input'));
+  form.prize.value = rest.slice(0, 120);
+  const end = extractEndDate(rest);
+  if (end) form.endDate.value = end;
+  const t = detectType(rest);
+  if (t.daily) form.daily.checked = true;
+  if (t.type !== 'tirage' && t.type !== 'quotidien') form.type.value = t.type;
+  history.replaceState(null, '', location.pathname);
+  switchTab('add');
+  toast('Vérifiez puis touchez « Ajouter à ma liste »');
+}
+
 initProfile();
+initAdd();
 await loadData();
 render();
+handleShare();
 askIfPlayed();

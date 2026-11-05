@@ -77,6 +77,8 @@ try {
   await page.waitForSelector('#ask:not([hidden])');
   await page.screenshot({ path: path.join(shots, 'site-question.png') });
   await page.click('#ask-yes');
+  assert.equal(await page.locator('#ask').isVisible(), false, 'le bandeau disparaît après « Oui »');
+  assert.equal(await page.locator('.fam-editor').first().isVisible(), false, 'éditeur de famille caché par défaut');
   await page.click('nav button[data-tab=history]');
   assert.equal(await page.locator('#history-list .item').count(), 1);
   ok('au retour, « Avez-vous participé ? » → enregistré dans l\'historique');
@@ -100,6 +102,32 @@ try {
   await dior.locator('.fam-editor button.primary').click();
   await page.waitForSelector('details.group summary:has-text("Mode")');
   ok('famille corrigée à la main');
+
+  // « Pas encore » ferme aussi le bandeau
+  const [c2] = await Promise.all([ctx.waitForEvent('page'), page.locator('article.contest', { hasText: 'chocolat' }).first().locator('.go').click()]);
+  await c2.waitForTimeout(4200);
+  await c2.close();
+  await page.bringToFront();
+  await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+  await page.waitForSelector('#ask:not([hidden])');
+  await page.click('#ask-no');
+  assert.equal(await page.locator('#ask').isVisible(), false);
+  ok('le bandeau « Avez-vous participé ? » disparaît avec Oui comme avec Pas encore');
+
+  // Partage depuis Instagram (Partager → Jeux-Concours)
+  await page.goto(url + '?partage_texte=' + encodeURIComponent('Concours ! Gagnez un coffret Sephora, jusqu\'au 30/11/2026 https://www.instagram.com/p/ABC123/'));
+  await page.waitForSelector('#tab-add:not([hidden])');
+  assert.equal(await page.inputValue('#add-form [name=link]'), 'https://www.instagram.com/p/ABC123/');
+  assert.equal(await page.inputValue('#add-form [name=platform]'), 'instagram');
+  assert.equal(await page.inputValue('#add-form [name=type]'), 'social');
+  assert.equal(await page.inputValue('#add-form [name=endDate]'), '2026-11-30');
+  await page.fill('#add-form [name=prize]', 'un coffret Sephora');
+  await page.click('#add-form button[type=submit]');
+  await page.selectOption('#f-platform', 'instagram');
+  assert.equal(await page.locator('article.contest .prize').first().textContent(), 'un coffret Sephora');
+  assert.match(await page.locator('article.contest .meta').first().textContent(), /Instagram/);
+  ok('concours Instagram partagé depuis l\'appli, ajouté et filtrable');
+  await page.screenshot({ path: path.join(shots, 'site-instagram.png') });
   assert.deepEqual(errors, []);
   console.log(`\nTout est OK. Captures : ${shots}`);
 } finally {

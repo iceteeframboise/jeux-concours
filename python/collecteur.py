@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import time
 import urllib.error
@@ -183,6 +184,8 @@ def parse_feed(xml_text: str, base: str) -> list[dict]:
 
 
 HINT = ("concours", "gagne", "gagner", "a gagner", "à gagner", "tirage", "instant gagnant", "remporte", "/jeu")
+# Liens de rubrique (« Concours Instagram », « Jeux concours gratuits »…) : ce ne sont pas des concours.
+CATEGORY = re.compile(r"^(les |tous les |toutes les )?(jeux?[- ])?concours( gratuits?)?( (sur )?(facebook|instagram|tiktok|twitter|x|r[ée]seaux sociaux|du jour|en cours|qui finissent.*|quotidiens?|instants? gagnants?))?$")
 NOISE = ("règlement", "reglement", "mentions légales", "cgu", "cookies", "connexion", "newsletter", "contact")
 
 
@@ -192,7 +195,7 @@ def page_links(html: str, base: str) -> list[dict]:
     seen, items = set(), []
     for a in p.anchors:
         t = a["text"].lower()
-        if not (15 <= len(t) <= 250) or any(n in t for n in NOISE):
+        if not (15 <= len(t) <= 250) or any(n in t for n in NOISE) or CATEGORY.match(t):
             continue
         if not any(h in t or h in a["href"].lower() for h in HINT):
             continue
@@ -228,7 +231,21 @@ def collect_source(src: dict, f: Fetcher) -> tuple[list[dict], str]:
                 items = parse_feed(t2, feed)
                 if items:
                     return items, f"flux RSS trouvé : {feed}"
-    return page_links(text, src["url"]), "lecture légère de la page"
+    return page_links(text, src["url"]), "lecture légère de la page" + social_hints(text, src["url"])
+
+
+def social_hints(html: str, base: str) -> str:
+    """Repère (sans les visiter) les rubriques « concours Facebook / Instagram » de la page."""
+    p = LinkParser(base)
+    p.feed(html)
+    host = urllib.parse.urlsplit(base).netloc
+    found = []
+    for a in p.anchors:
+        t = (a["text"] + " " + a["href"]).lower()
+        if urllib.parse.urlsplit(a["href"]).netloc == host and any(k in t for k in ("facebook", "instagram", "reseaux-sociaux", "réseaux sociaux")):
+            if a["href"] not in found:
+                found.append(a["href"])
+    return f" · rubriques réseaux sociaux repérées : {', '.join(found[:5])}" if found else ""
 
 
 # ---------------------------------------------------------------- fichiers

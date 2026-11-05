@@ -28,6 +28,7 @@ export function applyFilters(contests, opts = {}, ctx = {}) {
     if (c.endDate && c.endDate < today) return false;
     if (opts.family && !familiesOf(c, overrides).includes(opts.family)) return false;
     if (opts.type && c.type !== opts.type && !(opts.type === 'quotidien' && c.daily)) return false;
+    if (opts.platform && (c.platform || 'web') !== opts.platform) return false;
     if (opts.end === 'today' && c.endDate !== today) return false;
     if (opts.end === 'week' && !(c.endDate && c.endDate <= week)) return false;
     if (opts.notPlayed && lastPlayed[c.id]) return false;

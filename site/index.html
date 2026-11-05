@@ -22,6 +22,7 @@
       <button data-tab="daily">À refaire <span id="n-daily"></span></button>
       <button data-tab="history">Joués</button>
       <button data-tab="wins">Gains</button>
+      <button data-tab="add">➕ Ajouter</button>
       <button data-tab="profile">Mes infos</button>
     </nav>
   </header>
@@ -39,6 +40,7 @@
         <input id="f-search" type="search" placeholder="Rechercher (lot, marque…)">
         <select id="f-family"><option value="">Toutes les familles</option></select>
         <select id="f-type"><option value="">Tous les types</option></select>
+        <select id="f-platform"><option value="">Partout (sites et réseaux)</option></select>
         <select id="f-end">
           <option value="">Toutes dates de fin</option>
           <option value="today">Finit aujourd'hui</option>
@@ -71,6 +73,23 @@
         <button class="primary" type="submit">Ajouter</button>
       </form>
       <div id="wins-list"></div>
+    </section>
+
+    <section id="tab-add" hidden>
+      <p class="card info">Vu un concours sur <b>Facebook</b>, <b>Instagram</b> ou ailleurs ? Ajoutez-le ici pour le suivre
+        (date de fin, quotidien, historique, gains).<br>
+        Encore plus rapide, une fois le site ajouté à l'écran d'accueil : dans Facebook ou Instagram, touchez
+        <b>Partager → Jeux-Concours</b>, le formulaire se remplit tout seul.</p>
+      <form id="add-form" class="card form">
+        <label>Lien du concours (publication, page…) <input name="link" type="url" required placeholder="https://www.instagram.com/p/…"></label>
+        <label>Lot à gagner <input name="prize" required placeholder="ex. un coffret de parfums"></label>
+        <label>Organisateur (marque, compte) <input name="organizer"></label>
+        <label>Date de fin <input name="endDate" type="date"></label>
+        <label>Où ? <select name="platform"></select></label>
+        <label>Type <select name="type"></select></label>
+        <label class="row"><input type="checkbox" name="daily"> On peut rejouer chaque jour</label>
+        <button class="primary" type="submit">Ajouter à ma liste</button>
+      </form>
     </section>
 
     <section id="tab-profile" hidden>

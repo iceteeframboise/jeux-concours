@@ -2,7 +2,7 @@
 // Python) en fiche "concours" complète.
 import { hash, truncate, stripTags } from './text.js';
 import { classify } from './categories.js';
-import { detectType, paidReason, extractValue, extractEndDate, extractOrganizer, extractPrize } from './analyze.js';
+import { detectPlatform, detectType, paidReason, extractValue, extractEndDate, extractOrganizer, extractPrize } from './analyze.js';
 import { canonicalUrl } from './dedupe.js';
 import { extractAnchors } from './feeds.js';
 import { normalize } from './text.js';
@@ -32,7 +32,11 @@ export function buildContest(raw, source, now = new Date()) {
   const endDate = raw.endDate || extractEndDate(`${raw.title}. ${description}`, now);
   if (endDate && endDate < dateKey(now)) return { excluded: 'déjà terminé', title: raw.title };
 
-  const { type, daily } = detectType(full);
+  const detected = detectType(full);
+  const platform = detectPlatform(full, formUrl || raw.link);
+  const daily = detected.daily;
+  // Un concours qui se joue sur Facebook/Instagram/TikTok est de type « Réseaux sociaux ».
+  const type = platform !== 'web' && detected.type === 'tirage' ? 'social' : detected.type;
   const prize = extractPrize(raw.title, description);
   const ts = now.getTime();
   return {
@@ -48,6 +52,7 @@ export function buildContest(raw, source, now = new Date()) {
       endDate,
       type,
       daily,
+      platform,
       families: classify(`${raw.title} ${prize} ${description} ${(raw.categories || []).join(' ')}`),
       description: truncate(description, 400),
       sources: [source.id],
