@@ -76,6 +76,26 @@
   "note": "vérifié le 05/11/2026 : robots.txt OK, CGU sans interdiction"
  },
  {
+  "id": "ledemondujeu-facebook",
+  "name": "Le Démon du Jeu – Facebook",
+  "url": "https://www.ledemondujeu.com/concours-facebook-1.html",
+  "kind": "page",
+  "group": "Annuaire",
+  "enabled": true,
+  "reseau": "Facebook",
+  "note": "rubrique Facebook (même site vérifié)"
+ },
+ {
+  "id": "ledemondujeu-instagram",
+  "name": "Le Démon du Jeu – Instagram",
+  "url": "https://www.ledemondujeu.com/concours-instagram-1.html",
+  "kind": "page",
+  "group": "Annuaire",
+  "enabled": true,
+  "reseau": "Instagram",
+  "note": "rubrique Instagram (même site vérifié)"
+ },
+ {
   "id": "jeux-concours-gagnants",
   "name": "Jeux Concours Gagnants",
   "url": "https://www.jeux-concours-gagnants.com/feed",
