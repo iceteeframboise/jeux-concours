@@ -1,0 +1,10 @@
+[
+  {"id": "jeu-concours-biz", "name": "Jeu-Concours.biz", "url": "https://www.jeu-concours.biz/", "kind": "auto", "enabled": true},
+  {"id": "toutgagner", "name": "Toutgagner", "url": "https://www.toutgagner.com/", "kind": "auto", "enabled": false},
+  {"id": "concoursmania", "name": "Concoursmania", "url": "https://www.concoursmania.com/", "kind": "auto", "enabled": false},
+  {"id": "jeux-concours-fr", "name": "Jeuxconcours.fr", "url": "https://www.jeuxconcours.fr/", "kind": "auto", "enabled": false},
+  {"id": "dna", "name": "DNA", "url": "https://www.dna.fr/jeux-concours", "kind": "auto", "enabled": false},
+  {"id": "lalsace", "name": "L'Alsace", "url": "https://www.lalsace.fr/jeux-concours", "kind": "auto", "enabled": false},
+  {"id": "estrepublicain", "name": "L'Est Républicain", "url": "https://www.estrepublicain.fr/jeux-concours", "kind": "auto", "enabled": false},
+  {"id": "republicain-lorrain", "name": "Le Républicain Lorrain", "url": "https://www.republicain-lorrain.fr/jeux-concours", "kind": "auto", "enabled": false}
+]

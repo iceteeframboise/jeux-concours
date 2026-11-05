@@ -211,7 +211,7 @@ def looks_like_feed(text: str) -> bool:
 def collect_source(src: dict, f: Fetcher) -> tuple[list[dict], str]:
     ok, note = f.robots_allows(src["url"])
     if not ok:
-        return [], note
+        raise PermissionError(note)  # source non lue : signalée en ✗
     status, text = f.get(src["url"])
     if status >= 400:
         raise RuntimeError(f"HTTP {status}")
@@ -335,7 +335,11 @@ def main(argv=None):
     ap.add_argument("--verifier", action="store_true", help="vérifier robots.txt / RSS / CGU des sources")
     ap.add_argument("--serve", action="store_true", help="servir concours.json sur 127.0.0.1 pour l'extension")
     ap.add_argument("--port", type=int, default=8765)
+    ap.add_argument("--sources", type=Path, help="fichier de sources à utiliser (par défaut python/sources.json)")
     args = ap.parse_args(argv)
+    if args.sources:
+        global SOURCES_FILE
+        SOURCES_FILE = args.sources.resolve()
     if args.verifier:
         run_verify()
         return

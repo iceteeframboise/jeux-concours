@@ -4,3 +4,4 @@ python/concours.json
 python/etat.json
 python/sources.json
 *.zip
+_site/

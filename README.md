@@ -12,6 +12,39 @@ Une extension de navigateur qui :
 > ne coche pas le règlement, ne touche pas aux CAPTCHA et ne gère qu'**un seul profil**.
 > Les règlements interdisent la participation automatisée : vos gains restent valables.
 
+## 📱 Le plus simple : le site (tablette, téléphone, ordinateur)
+
+Pas d'installation : un lien à ouvrir, que l'on peut ajouter à l'écran d'accueil comme une appli.
+
+👉 **https://iceteeframboise.github.io/jeux-concours/**
+
+* GitHub collecte les concours **chaque matin** (1 passage par jour, `robots.txt` respecté) et met le
+  site à jour tout seul.
+* Le site affiche la liste par famille, les filtres, les quotidiens à refaire, les concours qui finissent
+  dans 24 h, l'historique et le journal des gains.
+* **Participer** ouvre le formulaire ; quand vous revenez sur le site, il demande « Avez-vous
+  participé ? ».
+* **Mes infos** : votre profil, avec un bouton 📋 pour copier chaque information. Encore plus simple :
+  enregistrez votre adresse dans le remplissage automatique du navigateur (expliqué dans l'onglet).
+* Vos données restent **dans le navigateur de votre appareil** (rien n'est envoyé à GitHub).
+
+Différence avec l'extension : un site n'a pas le droit d'écrire dans les pages d'autres sites, donc
+**pas de pré-remplissage automatique** ni de notification ; tout le reste est là.
+
+### Mise en route (une seule fois, depuis la tablette)
+1. Sur github.com, ouvrez le dépôt `jeux-concours` → **Settings** (Paramètres) → **Pages**.
+2. Dans « Build and deployment », champ **Source** : choisissez **GitHub Actions**.
+3. Onglet **Actions** du dépôt → **Site Jeux-Concours** → **Run workflow** → **Run workflow**.
+4. Après 1 à 2 minutes, ouvrez le lien ci-dessus. Dans le menu du navigateur :
+   **« Ajouter à l'écran d'accueil »** (ou « Installer l'application »).
+
+Les sources collectées se règlent dans `site/sources.json` (modifiable sur GitHub avec ✏️ :
+`"enabled": true` pour activer une source, après avoir lu ses conditions d'utilisation).
+
+---
+
+## 🧩 L'extension de navigateur (ordinateur)
+
 | La liste par famille | Le formulaire pré-rempli (rien n'est envoyé) |
 |---|---|
 | <img src="docs/captures/1-panneau.png" width="300"> | <img src="docs/captures/2-formulaire.png" width="480"> |
@@ -73,6 +106,8 @@ des pages de concours que vous choisissez.
 | `extension/content/prefill.js` | le pré-remplissage dans la page du concours |
 | `python/collecteur.py` | script de secours qui alimente l'extension |
 | `docs/SOURCES.md` | sources proposées et comment les vérifier |
+| `site/` | le site (même logique que l'extension, via `extension/lib/`) |
+| `.github/workflows/site.yml` | collecte quotidienne + publication du site par GitHub |
 | `tests/` | tests automatiques |
 | `dist/*.xpi` | fichier d'installation pour Firefox / Android (`python3 tools/build_xpi.py`) |
 
@@ -293,7 +328,8 @@ Il faut [Node.js](https://nodejs.org) (version 20 ou plus, bouton « LTS »).
 npm test                                    # 10 tests : classement, RSS, robots.txt, doublons, filtres…
 python -m unittest discover -s tests        # 2 tests du script Python
 npm install playwright && npx playwright install chromium
-npm run test:browser                        # test complet dans un vrai Chromium
+npm run test:browser                        # test complet de l'extension dans Chromium
+npm run test:site                           # test du site en taille tablette
 ```
 
 Le test complet charge l'extension, collecte un faux annuaire local, vérifie le classement,

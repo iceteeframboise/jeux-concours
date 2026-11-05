@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jeux-Concours</title>
+  <meta name="description" content="Les jeux-concours gratuits du jour, classés par famille.">
+  <meta name="theme-color" content="#1a73e8">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon192.png">
+  <link rel="apple-touch-icon" href="icons/icon192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="top">
+      <strong>🎁 Jeux-Concours</strong>
+      <span id="new-count" class="pill" hidden></span>
+    </div>
+    <nav>
+      <button data-tab="list" class="active">Concours <span id="n-list"></span></button>
+      <button data-tab="daily">À refaire <span id="n-daily"></span></button>
+      <button data-tab="history">Joués</button>
+      <button data-tab="wins">Gains</button>
+      <button data-tab="profile">Mes infos</button>
+    </nav>
+  </header>
+
+  <div id="ask" class="ask" hidden>
+    <span>Avez-vous participé à <b id="ask-title"></b> ?</span>
+    <button id="ask-yes" class="primary">Oui, c'est fait ✓</button>
+    <button id="ask-no">Pas encore</button>
+  </div>
+
+  <main>
+    <section id="tab-list">
+      <div id="soon"></div>
+      <div class="filters">
+        <input id="f-search" type="search" placeholder="Rechercher (lot, marque…)">
+        <select id="f-family"><option value="">Toutes les familles</option></select>
+        <select id="f-type"><option value="">Tous les types</option></select>
+        <select id="f-end">
+          <option value="">Toutes dates de fin</option>
+          <option value="today">Finit aujourd'hui</option>
+          <option value="week">Finit cette semaine</option>
+        </select>
+        <select id="f-sort">
+          <option value="end">Tri : fin la plus proche</option>
+          <option value="value">Tri : valeur du lot</option>
+          <option value="new">Tri : nouveautés</option>
+        </select>
+        <label><input id="f-notplayed" type="checkbox"> Pas encore joué</label>
+        <label><input id="f-dailytodo" type="checkbox"> Quotidiens à refaire</label>
+      </div>
+      <div id="groups"></div>
+    </section>
+
+    <section id="tab-daily" hidden>
+      <p class="muted">Concours quotidiens déjà joués, à refaire aujourd'hui.</p>
+      <div id="daily-list"></div>
+    </section>
+
+    <section id="tab-history" hidden><div id="history-list"></div></section>
+
+    <section id="tab-wins" hidden>
+      <form id="win-form" class="card form">
+        <strong>Ajouter un gain</strong>
+        <input name="prize" placeholder="Lot" required>
+        <input name="organizer" placeholder="Organisateur">
+        <input name="date" type="date" required>
+        <button class="primary" type="submit">Ajouter</button>
+      </form>
+      <div id="wins-list"></div>
+    </section>
+
+    <section id="tab-profile" hidden>
+      <p class="card info">🔒 Ces informations restent <b>uniquement sur cet appareil</b> (stockage du navigateur).
+        Le bouton 📋 copie une info : sur la page du concours, appuyez longuement dans la case puis « Coller ».</p>
+      <form id="profile" class="card form">
+        <label>Civilité <select name="civility"><option value="">—</option><option>Madame</option><option>Monsieur</option></select></label>
+        <div id="profile-fields"></div>
+        <button class="primary" type="submit">Enregistrer</button> <span id="profile-saved" class="ok"></span>
+      </form>
+      <details class="card">
+        <summary><b>Astuce : remplissage automatique du navigateur</b></summary>
+        <p>Pour que les formulaires se remplissent presque tout seuls, enregistrez une fois votre adresse dans
+          le navigateur de la tablette :</p>
+        <ul>
+          <li><b>Chrome</b> : ⋮ → Paramètres → <i>Adresses et autres</i> → Ajouter une adresse.</li>
+          <li><b>Samsung Internet</b> : ☰ → Paramètres → <i>Données personnelles</i> → Remplissage automatique.</li>
+          <li><b>Firefox</b> : ⋮ → Paramètres → <i>Adresses</i>.</li>
+        </ul>
+        <p>Ensuite, en touchant la case « Nom » d'un formulaire, le navigateur propose de tout remplir. Vous vérifiez,
+          cochez le règlement et validez vous-même.</p>
+      </details>
+      <div class="card">
+        <b>Sauvegarde</b><br>
+        <button id="export">Télécharger une sauvegarde</button>
+        <label class="file">Restaurer : <input type="file" id="restore" accept=".json"></label>
+      </div>
+      <div class="card" id="sources-box"><b>Sources</b><div id="sources"></div></div>
+    </section>
+  </main>
+
+  <template id="tpl-card">
+    <article class="card contest">
+      <div class="row"><span class="new" hidden>NOUVEAU</span><h3 class="prize"></h3></div>
+      <div class="meta"></div>
+      <div class="fams"></div>
+      <div class="actions">
+        <a class="go button primary" target="_blank" rel="noopener">Participer</a>
+        <button class="done">Fait ✓</button>
+        <a class="rules" target="_blank" rel="noopener">Règlement</a>
+        <button class="edit">✎ Famille</button>
+        <button class="hide">Masquer</button>
+      </div>
+      <div class="fam-editor" hidden></div>
+    </article>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

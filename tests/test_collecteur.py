@@ -69,6 +69,9 @@ class CollecteurTest(unittest.TestCase):
         self.assertEqual(ids.count("page"), 1)
         self.assertNotIn("non", ids)
         self.assertNotIn("/interdit", HITS, "page interdite par robots.txt jamais téléchargée")
+        etat = json.loads(collecteur.STATE_FILE.read_text())
+        self.assertFalse(etat["non"]["ok"])
+        self.assertEqual(etat["non"]["note"], "interdit par robots.txt")
         self.assertEqual(out["items"][0]["title"], "Jeu concours Sony : gagnez une PS5 et 2 manettes")
         # 2e passage 1 h plus tard : rien n'est re-téléchargé, les éléments sont conservés
         HITS.clear()
