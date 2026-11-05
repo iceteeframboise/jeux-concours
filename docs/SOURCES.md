@@ -1,37 +1,27 @@
 # Sources de concours : propositions et vérification
 
-## Statut honnête
+## Vérification du 05/11/2026
 
-Les sites ci-dessous **n'ont pas pu être vérifiés** pendant le développement :
-l'environnement où le code a été écrit n'a pas accès à ces sites. La vérification se fait donc
-**chez vous**, avec deux outils intégrés :
+Faite depuis GitHub (tâche « Vérifier des sources », fichier `site/candidats.json`, 58 sites) :
+robots.txt, flux RSS, lecture des CGU à la recherche des clauses sur l'extraction automatique.
 
-* dans l'extension : **⚙ Options → Sources → bouton « Tester »** (lit le `robots.txt`,
-  cherche un flux RSS et le lien des CGU, sans rien collecter) ;
-* avec le script Python : `python collecteur.py --verifier`.
+| Source | Résultat | Décision |
+|---|---|---|
+| Toutgagner | robots.txt OK · 97 concours · CGU sans interdiction | ✅ activée |
+| Concours.fr | robots.txt OK · **flux RSS** · CGU sans interdiction | ✅ activée (RSS) |
+| Concours du Net (+ rubrique Instagram) | robots.txt OK · 46 concours · CGU sans interdiction | ✅ activée |
+| Lidl – jeux-concours Lidl Plus | robots.txt OK · CGU sans interdiction | ✅ activée |
+| **Jeu-Concours.biz** | robots.txt OK mais **CGU : « interdiction de l'extraction automatisée »** | ❌ désactivée |
+| Coca-Cola | CGU : interdit robots / « web scraping » | ❌ |
+| Michel et Augustin | CGU : interdit l'extraction | ❌ |
+| ici Alsace (France Bleu) | CGU restrictives sur les robots | ❌ |
+| DNA, L'Est Républicain, Le Républicain Lorrain, Vosges Matin | robots.txt OK, 3 à 6 concours, CGU non trouvées automatiquement | ⏸ à lire à la main avant d'activer |
+| Marques alimentaires (Oasis, Milka, LU, Haribo, Panzani, Herta, Président…) | pas de page listant leurs jeux | ⏸ leurs jeux arrivent via les annuaires |
+| Concoursmania | page vide (construite en JavaScript) | ⏸ |
+| Autres candidats (Pringles, Carrefour, Intermarché…) | pas de réponse exploitable lors du test | ⏸ |
 
-Et quoi qu'il arrive, l'extension **relit le `robots.txt` avant chaque collecte** : si une source
-l'interdit, elle n'est pas téléchargée (statut « interdit par robots.txt » dans les options).
-
-## Liste proposée
-
-| Source | Type | Adresse de départ | Activée par défaut |
-|---|---|---|---|
-| Jeu-Concours.biz | Annuaire | https://www.jeu-concours.biz/ | ✅ (version 1) |
-| Toutgagner | Annuaire | https://www.toutgagner.com/ | ❌ |
-| Concoursmania | Annuaire | https://www.concoursmania.com/ | ❌ |
-| Jeuxconcours.fr | Annuaire | https://www.jeuxconcours.fr/ | ❌ |
-| DNA | Média Alsace | https://www.dna.fr/jeux-concours *(rubrique à confirmer)* | ❌ |
-| L'Alsace | Média Alsace | https://www.lalsace.fr/jeux-concours *(à confirmer)* | ❌ |
-| L'Est Républicain | Média Grand Est | https://www.estrepublicain.fr/jeux-concours *(à confirmer)* | ❌ |
-| Le Républicain Lorrain | Média Grand Est | https://www.republicain-lorrain.fr/jeux-concours *(à confirmer)* | ❌ |
-| ici Alsace (ex-France Bleu) | Radio | https://www.francebleu.fr/alsace | ❌ |
-| Script Python | Local | http://127.0.0.1:8765/concours.json | ❌ |
-
-**Pages « jeux » de marques et enseignes** (supermarchés, marques alimentaires, parcs de loisirs
-de la région…) : elles changent souvent d'adresse et sont fréquemment construites en JavaScript.
-Ajoutez celles qui vous intéressent avec **Options → « Ajouter une source »** (type « Page web »),
-après avoir vérifié qu'elles sont lisibles (bouton « Tester »).
+Pour relancer une vérification : GitHub → onglet **Actions** → **Vérifier des sources** → **Run workflow**.
+Pour activer une source : `site/sources.json`, `"enabled": true`.
 
 ## Comment décider si une source est utilisable
 
