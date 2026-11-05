@@ -40,7 +40,8 @@ class CollecteurTest(unittest.TestCase):
         Site.pages = {
             "/robots.txt": "User-agent: *\nDisallow: /interdit\n",
             "/": '<html><head><link rel="alternate" type="application/rss+xml" href="/feed"></head>'
-                 '<a href="/mentions">Mentions légales</a></html>',
+                 '<a href="/mentions">Mentions légales</a><a href="/jeux-concours">Nos jeux</a></html>',
+            "/mentions": "<p>Toute extraction automatisée du contenu par des robots est interdite. Contact.</p>",
             "/feed": RSS,
             "/interdit": "<a href='/x'>Gagnez une voiture neuve</a>",
             "/page": "<a href='/jeux/1'>Gagnez un séjour en Alsace pour deux</a><a href='/contact'>Contact</a>"
@@ -88,6 +89,19 @@ class CollecteurTest(unittest.TestCase):
         self.assertEqual(rep[0]["rss"], self.base + "/feed")
         self.assertTrue(rep[0]["cgu"].endswith("/mentions"))
         self.assertEqual(rep[1]["robots"], "interdit par robots.txt")
+
+
+    def test_decouvrir(self):
+        rep = collecteur.run_discover(None, collecteur.Fetcher(pause=0))
+        self.assertEqual(rep[0]["rss"], [self.base + "/feed"])
+        self.assertIn(self.base + "/jeux-concours", rep[0]["pages_jeux"])
+        self.assertIn("extraction automatisée", rep[0]["cgu_extraits"][0])
+        self.assertEqual(rep[1]["robots"], "interdit par robots.txt")
+
+    def test_un_passage_par_jour_calendaire(self):
+        soir = 1_700_000_000  # 14/11/2023 23:13 à Paris
+        self.assertTrue(collecteur.same_day(soir - 3600, soir))
+        self.assertFalse(collecteur.same_day(soir, soir + 3600))
 
 
 if __name__ == "__main__":

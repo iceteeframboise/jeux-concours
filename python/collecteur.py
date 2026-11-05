@@ -30,6 +30,11 @@ import urllib.request
 import urllib.robotparser
 import xml.etree.ElementTree as ET
 from datetime import datetime
+try:
+    from zoneinfo import ZoneInfo
+    PARIS = ZoneInfo("Europe/Paris")
+except Exception:  # Windows sans base de fuseaux : heure locale du PC
+    PARIS = None
 from html import unescape
 from html.parser import HTMLParser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -263,6 +268,11 @@ def load_sources() -> list[dict]:
     return load_json(SOURCES_FILE, DEFAULT_SOURCES)
 
 
+def same_day(a: float, b: float) -> bool:
+    """1 passage par jour = une seule fois par jour du calendrier (heure de Paris)."""
+    return datetime.fromtimestamp(a, PARIS).date() == datetime.fromtimestamp(b, PARIS).date()
+
+
 def run_collect(fetcher: Fetcher | None = None, now: float | None = None) -> dict:
     now = now or time.time()
     fetcher = fetcher or Fetcher()
@@ -272,12 +282,15 @@ def run_collect(fetcher: Fetcher | None = None, now: float | None = None) -> dic
     for it in previous.get("items", []):
         by_source.setdefault(it.get("sourceId", "?"), []).append(it)
 
-    for src in load_sources():
+    sources = load_sources()
+    enabled = {s["id"] for s in sources if s.get("enabled")}
+    by_source = {k: v for k, v in by_source.items() if k in enabled}  # source décochée : on oublie ses concours
+    for src in sources:
         if not src.get("enabled"):
             continue
         st = state.get(src["id"], {})
-        interval = MIN_INTERVAL if st.get("ok", True) else RETRY_AFTER_ERROR
-        if st.get("lastRun") and now - st["lastRun"] < interval:
+        last = st.get("lastRun")
+        if last and (same_day(last, now) if st.get("ok", True) else now - last < RETRY_AFTER_ERROR):
             print(f"- {src['name']} : déjà collecté le {datetime.fromtimestamp(st['lastRun']):%d/%m à %H:%M}, on attend demain.")
             continue
         try:
@@ -331,6 +344,58 @@ def run_verify(fetcher: Fetcher | None = None) -> list[dict]:
     return report
 
 
+CGU_WORDS = re.compile(r"[^.]{0,160}\b(extraction|extraire|aspiration|aspirer|robots?|scraping|crawl\w*|moissonn\w*|"
+                       r"collecte automatis\w*|automatis\w*|r[ée]utilisation)\b[^.]{0,160}", re.I)
+CGU_LINK = ("cgu", "conditions g", "conditions d'utilisation", "mentions légales", "mentions legales", "legal")
+CONTEST_LINK = ("jeu", "concours", "gagne", "tirage", "instant gagnant", "promo")
+
+
+def run_discover(report_path: Path | None = None, fetcher: Fetcher | None = None) -> list[dict]:
+    """Vérification détaillée de sources candidates (une requête par page, une seule fois).
+
+    Pour chaque site : réponse, robots.txt, flux RSS, extrait des CGU sur la collecte
+    automatique, nombre de concours visibles, et pour une marque ses pages « jeux »."""
+    fetcher = fetcher or Fetcher(pause=1.0)
+    report = []
+    for src in load_sources():
+        r = {"id": src["id"], "name": src["name"], "url": src["url"], "group": src.get("group", "")}
+        try:
+            ok, note = fetcher.robots_allows(src["url"])
+            r["robots"] = note
+            if not ok:
+                report.append(r)
+                continue
+            status, text = fetcher.get(src["url"])
+            r["http"] = status
+            if status >= 400:
+                report.append(r)
+                continue
+            p = LinkParser(src["url"])
+            p.feed(text)
+            r["rss"] = list(dict.fromkeys(p.feeds))[:3]
+            r["concours_visibles"] = len(page_links(text, src["url"]))
+            host = urllib.parse.urlsplit(src["url"]).netloc.replace("www.", "")
+            r["pages_jeux"] = list(dict.fromkeys(
+                a["href"] for a in p.anchors
+                if host in urllib.parse.urlsplit(a["href"]).netloc
+                and any(k in (a["text"] + " " + urllib.parse.urlsplit(a["href"]).path).lower() for k in CONTEST_LINK)
+                and len(a["text"]) < 60))[:6]
+            cgu = next((a["href"] for a in p.anchors if any(k in a["text"].lower() for k in CGU_LINK)), None)
+            r["cgu"] = cgu
+            if cgu and fetcher.robots_allows(cgu)[0]:
+                cs, ct = fetcher.get(cgu)
+                if cs < 400:
+                    hits = [" ".join(m.group(0).split()) for m in CGU_WORDS.finditer(strip_tags(ct))]
+                    r["cgu_extraits"] = hits[:3]
+        except Exception as e:  # noqa: BLE001
+            r["erreur"] = str(e)[:120]
+        report.append(r)
+        print("RAPPORT " + json.dumps(r, ensure_ascii=False), flush=True)
+    if report_path:
+        report_path.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+    return report
+
+
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):  # noqa: N802
         if self.path.split("?")[0] != "/concours.json":
@@ -350,6 +415,7 @@ class Handler(BaseHTTPRequestHandler):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Collecteur de jeux-concours pour l'extension.")
     ap.add_argument("--verifier", action="store_true", help="vérifier robots.txt / RSS / CGU des sources")
+    ap.add_argument("--decouvrir", type=Path, metavar="RAPPORT.json", help="vérification détaillée de sources candidates")
     ap.add_argument("--serve", action="store_true", help="servir concours.json sur 127.0.0.1 pour l'extension")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--sources", type=Path, help="fichier de sources à utiliser (par défaut python/sources.json)")
@@ -359,6 +425,9 @@ def main(argv=None):
         SOURCES_FILE = args.sources.resolve()
     if args.verifier:
         run_verify()
+        return
+    if args.decouvrir:
+        run_discover(args.decouvrir)
         return
     run_collect()
     if args.serve:

@@ -1,0 +1,466 @@
+[
+ {
+  "id": "jeu-concours-biz",
+  "name": "Jeu-Concours.biz",
+  "url": "https://www.jeu-concours.biz/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "toutgagner",
+  "name": "Toutgagner",
+  "url": "https://www.toutgagner.com/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "concoursmania",
+  "name": "Concoursmania",
+  "url": "https://www.concoursmania.com/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "jeuxconcours-fr",
+  "name": "Jeuxconcours.fr",
+  "url": "https://www.jeuxconcours.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "concours-fr",
+  "name": "Concours.fr",
+  "url": "https://www.concours.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "jeu-concours-fr",
+  "name": "Jeu-concours.fr",
+  "url": "https://www.jeu-concours.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "jeux-concours-gratuits",
+  "name": "Jeux-concours-gratuits.fr",
+  "url": "https://www.jeux-concours-gratuits.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "concours-gratuits",
+  "name": "Concours-gratuits.com",
+  "url": "https://www.concours-gratuits.com/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "lesjeuxconcours",
+  "name": "Lesjeuxconcours.com",
+  "url": "https://www.lesjeuxconcours.com/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "concours-du-net",
+  "name": "Concours du Net",
+  "url": "https://www.concours-du-net.com/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "jeuconcours-fr",
+  "name": "Jeuconcours.fr",
+  "url": "https://www.jeuconcours.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "mesjeuxconcours",
+  "name": "Mes jeux concours",
+  "url": "https://www.mesjeuxconcours.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "club-concours",
+  "name": "Le Club des Concours",
+  "url": "https://www.leclubdesconcours.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "gagnantmalin",
+  "name": "Gagnant malin",
+  "url": "https://www.gagnantmalin.fr/",
+  "kind": "auto",
+  "group": "Annuaire",
+  "enabled": true
+ },
+ {
+  "id": "dna",
+  "name": "DNA",
+  "url": "https://www.dna.fr/jeux-concours",
+  "kind": "auto",
+  "group": "Média régional",
+  "enabled": true
+ },
+ {
+  "id": "lalsace",
+  "name": "L'Alsace",
+  "url": "https://www.lalsace.fr/jeux-concours",
+  "kind": "auto",
+  "group": "Média régional",
+  "enabled": true
+ },
+ {
+  "id": "estrepublicain",
+  "name": "L'Est Républicain",
+  "url": "https://www.estrepublicain.fr/jeux-concours",
+  "kind": "auto",
+  "group": "Média régional",
+  "enabled": true
+ },
+ {
+  "id": "republicain-lorrain",
+  "name": "Le Républicain Lorrain",
+  "url": "https://www.republicain-lorrain.fr/jeux-concours",
+  "kind": "auto",
+  "group": "Média régional",
+  "enabled": true
+ },
+ {
+  "id": "vosgesmatin",
+  "name": "Vosges Matin",
+  "url": "https://www.vosgesmatin.fr/jeux-concours",
+  "kind": "auto",
+  "group": "Média régional",
+  "enabled": true
+ },
+ {
+  "id": "ici-alsace",
+  "name": "ici Alsace",
+  "url": "https://www.francebleu.fr/alsace",
+  "kind": "auto",
+  "group": "Média régional",
+  "enabled": true
+ },
+ {
+  "id": "pringles",
+  "name": "Pringles",
+  "url": "https://www.pringles.com/fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "oasis",
+  "name": "Oasis",
+  "url": "https://www.oasis.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "oasis-befruit",
+  "name": "Oasis (be fruit)",
+  "url": "https://www.oasisbefruit.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "milka",
+  "name": "Milka",
+  "url": "https://www.milka.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "lu",
+  "name": "LU",
+  "url": "https://www.lu.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "haribo",
+  "name": "Haribo",
+  "url": "https://www.haribo.com/fr-fr",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "coca-cola",
+  "name": "Coca-Cola",
+  "url": "https://www.coca-cola.com/fr/fr",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "orangina",
+  "name": "Orangina",
+  "url": "https://www.orangina.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "schweppes",
+  "name": "Schweppes",
+  "url": "https://www.schweppes.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "kinder",
+  "name": "Kinder",
+  "url": "https://www.kinder.com/fr/fr",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "nutella",
+  "name": "Nutella",
+  "url": "https://www.nutella.com/fr/fr",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "panzani",
+  "name": "Panzani",
+  "url": "https://www.panzani.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "bonduelle",
+  "name": "Bonduelle",
+  "url": "https://www.bonduelle.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "herta",
+  "name": "Herta",
+  "url": "https://www.herta.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "fleury-michon",
+  "name": "Fleury Michon",
+  "url": "https://www.fleurymichon.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "president",
+  "name": "Président",
+  "url": "https://www.president.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "cotedor",
+  "name": "Côte d'Or",
+  "url": "https://www.cotedor.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "lindt",
+  "name": "Lindt",
+  "url": "https://www.lindt.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "cristaline",
+  "name": "Cristaline",
+  "url": "https://www.cristaline.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "st-michel",
+  "name": "St Michel",
+  "url": "https://www.stmichel.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "bjorg",
+  "name": "Bjorg",
+  "url": "https://www.bjorg.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "carambar",
+  "name": "Carambar",
+  "url": "https://www.carambar.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "kelloggs",
+  "name": "Kellogg's",
+  "url": "https://www.kelloggs.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "andros",
+  "name": "Andros",
+  "url": "https://www.andros.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "bonne-maman",
+  "name": "Bonne Maman",
+  "url": "https://www.bonnemaman.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "brossard",
+  "name": "Brossard",
+  "url": "https://www.brossard.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "lays",
+  "name": "Lay's",
+  "url": "https://www.lays.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "danone",
+  "name": "Danone",
+  "url": "https://www.danone.fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "nescafe",
+  "name": "Nescafé",
+  "url": "https://www.nescafe.com/fr/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "michel-augustin",
+  "name": "Michel et Augustin",
+  "url": "https://www.micheletaugustin.com/",
+  "kind": "auto",
+  "group": "Marque alimentaire",
+  "enabled": true
+ },
+ {
+  "id": "carrefour",
+  "name": "Carrefour",
+  "url": "https://www.carrefour.fr/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ },
+ {
+  "id": "leclerc",
+  "name": "E.Leclerc",
+  "url": "https://www.e.leclerc/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ },
+ {
+  "id": "intermarche",
+  "name": "Intermarché",
+  "url": "https://www.intermarche.com/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ },
+ {
+  "id": "lidl",
+  "name": "Lidl",
+  "url": "https://www.lidl.fr/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ },
+ {
+  "id": "auchan",
+  "name": "Auchan",
+  "url": "https://www.auchan.fr/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ },
+ {
+  "id": "systeme-u",
+  "name": "Magasins U",
+  "url": "https://www.magasins-u.com/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ },
+ {
+  "id": "monoprix",
+  "name": "Monoprix",
+  "url": "https://www.monoprix.fr/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ },
+ {
+  "id": "cora",
+  "name": "Cora",
+  "url": "https://www.cora.fr/",
+  "kind": "auto",
+  "group": "Enseigne",
+  "enabled": true
+ }
+]

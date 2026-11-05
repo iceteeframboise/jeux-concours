@@ -1,0 +1,21 @@
+# Vérification détaillée des sources candidates (lancement manuel uniquement).
+# Une requête par page, une seule fois : robots.txt, flux RSS, CGU, pages « jeux ».
+name: Vérifier des sources
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérification
+        run: python3 python/collecteur.py --sources site/candidats.json --decouvrir rapport.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rapport-sources
+          path: rapport.json

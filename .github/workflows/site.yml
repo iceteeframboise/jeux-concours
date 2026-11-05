@@ -31,15 +31,16 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v5
 
-      - name: Collecte du jour
-        if: github.event_name != 'push'
-        run: python3 python/collecteur.py --sources site/sources.json
-
-      - name: Reprise des données déjà en ligne (pas de nouvelle collecte)
-        if: github.event_name == 'push'
+      # On repart des données déjà en ligne : le script sait ainsi quelles sources
+      # ont déjà été lues aujourd'hui (1 passage par jour et par source).
+      - name: Reprise des données déjà en ligne
         run: |
           curl -fsSL "${{ steps.pages.outputs.base_url }}/data/concours.json" -o python/concours.json || true
           curl -fsSL "${{ steps.pages.outputs.base_url }}/data/etat.json" -o python/etat.json || true
+
+      - name: Collecte du jour (sources pas encore lues aujourd'hui)
+        if: github.event_name != 'push'
+        run: python3 python/collecteur.py --sources site/sources.json
 
       - name: Assemblage du site
         run: python3 tools/build_site.py _site
