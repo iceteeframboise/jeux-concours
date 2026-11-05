@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jeux-Concours – Options</title>
+  <link rel="stylesheet" href="panel.css">
+  <style>
+    body { width: auto; max-width: 820px; margin: 0 auto; padding: 12px 16px 40px; }
+    h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 28px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 12px; }
+    .grid label { display: grid; gap: 2px; }
+    .grid input, .grid select, #add-source input, #add-source select { font: inherit; padding: 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); }
+    .wide { grid-column: 1 / -1; }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .ok { color: var(--ok); } .ko { color: var(--warn); }
+    .saved { color: var(--ok); margin-left: 8px; }
+    #add-source { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .lock { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  </style>
+</head>
+<body>
+  <h1>🎁 Jeux-Concours – Options</h1>
+  <p class="lock">🔒 Votre profil reste <b>uniquement sur cet ordinateur</b> (stockage local de l'extension).
+    Il n'est envoyé à aucun serveur : il sert seulement à remplir les formulaires que <b>vous</b> ouvrez avec « Participer ».</p>
+
+  <h2>Mon profil</h2>
+  <form id="profile" class="grid">
+    <label>Civilité
+      <select name="civility"><option value="">—</option><option value="Mme">Madame</option><option value="M">Monsieur</option></select>
+    </label>
+    <label>Prénom <input name="firstName" autocomplete="given-name"></label>
+    <label>Nom <input name="lastName" autocomplete="family-name"></label>
+    <label class="wide">Adresse (n° et rue) <input name="address" autocomplete="address-line1"></label>
+    <label class="wide">Complément d'adresse <input name="address2" autocomplete="address-line2"></label>
+    <label>Code postal <input name="zip" inputmode="numeric" pattern="\d{5}" autocomplete="postal-code"></label>
+    <label>Ville <input name="city" autocomplete="address-level2"></label>
+    <label>Pays <input name="country" value="France"></label>
+    <label>E-mail <input name="email" type="email" autocomplete="email"></label>
+    <label>Téléphone <input name="phone" type="tel" autocomplete="tel"></label>
+    <label>Date de naissance <input name="birthDate" type="date" autocomplete="bday"></label>
+    <div class="wide"><button class="primary" type="submit">Enregistrer le profil</button><span id="profile-saved" class="saved"></span></div>
+  </form>
+
+  <h2>Accès aux sites</h2>
+  <p>Pour pré-remplir les formulaires et lire les sources, l'extension doit pouvoir accéder aux sites web.
+    Chrome l'accorde à l'installation ; Firefox le demande : <button id="grant">Autoriser l'accès aux sites</button>
+    <span id="grant-state"></span></p>
+
+  <h2>Sources de concours</h2>
+  <p class="muted">Chaque source cochée est lue <b>au plus une fois par jour</b>, uniquement si son <code>robots.txt</code> l'autorise.
+    Avant de cocher une source, lisez ses conditions d'utilisation (CGU) : le bouton « Tester » vérifie le robots.txt et cherche un flux RSS, sans rien collecter.</p>
+  <table>
+    <thead><tr><th>Utiliser</th><th>Source</th><th>Dernier passage</th><th></th></tr></thead>
+    <tbody id="sources"></tbody>
+  </table>
+  <form id="add-source">
+    <input name="name" placeholder="Nom (ex. page jeux d'une marque)" required>
+    <input name="url" type="url" placeholder="https://…" required size="40">
+    <select name="kind">
+      <option value="auto">Automatique (RSS si dispo)</option>
+      <option value="rss">Flux RSS</option>
+      <option value="page">Page web (lecture légère)</option>
+    </select>
+    <button type="submit">Ajouter la source</button>
+  </form>
+
+  <h2>Rappels</h2>
+  <label><input type="checkbox" id="notifyEnding"> Me prévenir des concours non joués qui finissent dans 24 h</label><br>
+  <label><input type="checkbox" id="notifyDaily"> Me rappeler chaque matin les concours quotidiens à refaire</label>
+
+  <h2>Importer / sauvegarder</h2>
+  <p>Importer un fichier <code>concours.json</code> produit par le script Python :
+    <input type="file" id="import-json" accept=".json,application/json"> <span id="import-state"></span></p>
+  <p>
+    <button id="export">Exporter une sauvegarde (historique, gains, profil…)</button>
+    <label>Restaurer une sauvegarde : <input type="file" id="restore" accept=".json"></label>
+  </p>
+  <p><button id="wipe" class="ko">Tout effacer</button></p>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>

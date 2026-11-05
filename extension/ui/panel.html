@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jeux-Concours</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header>
+    <div class="top">
+      <strong>🎁 Jeux-Concours</strong>
+      <span class="spacer"></span>
+      <button id="btn-refresh" title="Collecter les sources (1 fois par jour maximum)">⟳</button>
+      <button id="btn-sidepanel" title="Ouvrir dans le panneau latéral">▥</button>
+      <button id="btn-options" title="Mon profil et les sources">⚙</button>
+    </div>
+    <nav>
+      <button data-tab="list" class="active">Concours <span id="n-list"></span></button>
+      <button data-tab="daily">À refaire <span id="n-daily"></span></button>
+      <button data-tab="history">Historique</button>
+      <button data-tab="wins">Gains</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="notice" class="card notice" hidden></div>
+    <section id="tab-list">
+      <div class="filters">
+        <input id="f-search" type="search" placeholder="Rechercher (lot, marque…)">
+        <select id="f-family"><option value="">Toutes les familles</option></select>
+        <select id="f-type"><option value="">Tous les types</option></select>
+        <select id="f-end">
+          <option value="">Toutes dates de fin</option>
+          <option value="today">Finit aujourd'hui</option>
+          <option value="week">Finit cette semaine</option>
+        </select>
+        <select id="f-sort">
+          <option value="end">Tri : fin la plus proche</option>
+          <option value="value">Tri : valeur du lot</option>
+          <option value="new">Tri : nouveautés</option>
+        </select>
+        <label><input id="f-notplayed" type="checkbox"> Pas encore joué</label>
+        <label><input id="f-dailytodo" type="checkbox"> Quotidiens à refaire aujourd'hui</label>
+      </div>
+      <p id="status" class="muted"></p>
+      <div id="groups"></div>
+    </section>
+
+    <section id="tab-daily" hidden>
+      <p class="muted">Concours quotidiens déjà joués, à refaire aujourd'hui.</p>
+      <div id="daily-list"></div>
+    </section>
+
+    <section id="tab-history" hidden>
+      <div id="history-list"></div>
+    </section>
+
+    <section id="tab-wins" hidden>
+      <form id="win-form" class="card">
+        <strong>Ajouter un gain</strong>
+        <input name="prize" placeholder="Lot" required>
+        <input name="organizer" placeholder="Organisateur">
+        <input name="date" type="date" required>
+        <button type="submit">Ajouter</button>
+      </form>
+      <div id="wins-list"></div>
+    </section>
+  </main>
+
+  <template id="tpl-card">
+    <article class="card contest">
+      <div class="row">
+        <span class="new" hidden>NOUVEAU</span>
+        <h3 class="prize"></h3>
+      </div>
+      <div class="meta"></div>
+      <div class="fams"></div>
+      <div class="actions">
+        <button class="go primary">Participer</button>
+        <button class="done">Fait ✓</button>
+        <a class="rules" target="_blank" rel="noopener">Règlement</a>
+        <button class="edit" title="Corriger la famille">✎ Famille</button>
+        <button class="hide" title="Masquer ce concours">Masquer</button>
+      </div>
+      <div class="fam-editor" hidden></div>
+    </article>
+  </template>
+
+  <script type="module" src="panel.js"></script>
+</body>
+</html>

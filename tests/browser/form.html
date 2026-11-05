@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Grand jeu Sony</title></head>
+<body>
+  <h1>Grand jeu PS5</h1>
+  <form action="merci.html" method="get">
+    <p><label for="civ">Civilité</label>
+      <select id="civ" name="civilite"><option value="">Choisir</option><option value="1">Monsieur</option><option value="2">Madame</option></select></p>
+    <p><label for="fn">Prénom *</label><input id="fn" name="firstname" required></p>
+    <p><label for="ln">Nom *</label><input id="ln" name="lastname" required></p>
+    <p><label for="em">Adresse e-mail</label><input id="em" name="mail" type="email"></p>
+    <p><label for="tel">Téléphone portable</label><input id="tel" name="mobile"></p>
+    <p><label for="adr">Adresse</label><input id="adr" name="adresse"></p>
+    <p><label for="cp">Code postal</label><input id="cp" name="cp"></p>
+    <p><label for="ville">Ville</label><input id="ville" name="ville"></p>
+    <p>Date de naissance
+      <select name="naissance_jour"><option value="">JJ</option><option>01</option><option>14</option><option>28</option></select>
+      <select name="naissance_mois"><option value="">MM</option><option value="1">janvier</option><option value="7">juillet</option></select>
+      <select name="naissance_annee"><option value="">AAAA</option><option>1985</option><option>1990</option></select></p>
+    <fieldset><legend>Question : quelle marque organise ce jeu ?</legend>
+      <label><input type="radio" name="q1" value="a"> Nintendo</label>
+      <label><input type="radio" name="q1" value="b"> Sony</label>
+      <label><input type="radio" name="q1" value="c"> Sega</label></fieldset>
+    <p><label for="cap">Recopiez le code (captcha)</label><input id="cap" name="captcha_code"></p>
+    <p><label><input type="checkbox" name="reglement" required> J'accepte le règlement *</label></p>
+    <p><label><input type="checkbox" name="newsletter"> Recevoir la newsletter</label></p>
+    <button type="submit" id="valider">Je participe</button>
+  </form>
+</body></html>
