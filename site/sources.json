@@ -100,7 +100,7 @@
   "kind": "auto",
   "group": "Média régional",
   "enabled": false,
-  "note": "robots.txt OK mais CGU non trouvées automatiquement : à lire avant d'activer"
+  "note": "DÉSACTIVÉ : CGU EBRA (espace-client/cgu) interdisent l'extraction et la mise à disposition du public ; lien direct dans le site"
  },
  {
   "id": "estrepublicain",
@@ -109,7 +109,7 @@
   "kind": "auto",
   "group": "Média régional",
   "enabled": false,
-  "note": "idem DNA"
+  "note": "DÉSACTIVÉ : CGU EBRA (espace-client/cgu) interdisent l'extraction et la mise à disposition du public ; lien direct dans le site"
  },
  {
   "id": "republicain-lorrain",
@@ -118,7 +118,7 @@
   "kind": "auto",
   "group": "Média régional",
   "enabled": false,
-  "note": "idem DNA"
+  "note": "DÉSACTIVÉ : CGU EBRA (espace-client/cgu) interdisent l'extraction et la mise à disposition du public ; lien direct dans le site"
  },
  {
   "id": "vosgesmatin",
@@ -127,6 +127,6 @@
   "kind": "auto",
   "group": "Média régional",
   "enabled": false,
-  "note": "idem DNA"
+  "note": "DÉSACTIVÉ : CGU EBRA (espace-client/cgu) interdisent l'extraction et la mise à disposition du public ; lien direct dans le site"
  }
 ]

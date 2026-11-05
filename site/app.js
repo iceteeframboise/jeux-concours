@@ -418,6 +418,13 @@ function handleShare() {
   toast('Vérifiez puis touchez « Ajouter à ma liste »');
 }
 
+// Pages à consulter soi-même (sources dont les CGU interdisent la collecte automatique).
+fetch('raccourcis.json', { cache: 'no-cache' }).then((r) => r.json()).then((liens) => {
+  const box = $('#journaux-liens');
+  for (const l of liens) box.append(el('a', { class: 'button', href: l.url, target: '_blank', rel: 'noopener' }, l.name));
+  $('#journaux').hidden = !liens.length;
+}).catch(() => {});
+
 initProfile();
 initAdd();
 await loadData();

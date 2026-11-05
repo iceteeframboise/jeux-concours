@@ -57,6 +57,10 @@ try {
   assert.equal(await page.$$eval('article.contest', (a) => new Set(a.map((x) => x.querySelector('.prize').textContent)).size), 3);
   assert.equal(await page.locator('article.contest', { hasText: 'Ancien concours' }).count(), 0);
   ok('3 concours gratuits, classés par famille (payants écartés) ; source désactivée retirée');
+  await page.click('#journaux summary');
+  assert.equal(await page.locator('#journaux-liens a').count(), 5);
+  assert.equal(await page.locator('#journaux-liens a', { hasText: 'DNA' }).getAttribute('href'), 'https://www.dna.fr/jeux-concours');
+  ok('liens directs vers les jeux des journaux d\'Alsace et du Grand Est');
   await page.screenshot({ path: path.join(shots, 'site-liste.png') });
 
   // Profil + copie

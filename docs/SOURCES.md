@@ -15,7 +15,8 @@ robots.txt, flux RSS, lecture des CGU à la recherche des clauses sur l'extracti
 | Coca-Cola | CGU : interdit robots / « web scraping » | ❌ |
 | Michel et Augustin | CGU : interdit l'extraction | ❌ |
 | ici Alsace (France Bleu) | CGU restrictives sur les robots | ❌ |
-| DNA, L'Est Républicain, Le Républicain Lorrain, Vosges Matin | robots.txt OK, 3 à 6 concours, CGU non trouvées automatiquement | ⏸ à lire à la main avant d'activer |
+| DNA, L'Est Républicain, Le Républicain Lorrain, Vosges Matin (groupe EBRA) | robots.txt OK mais **CGU (`/espace-client/cgu`) : interdisent l'extraction et la mise à disposition du public** ; usage personnel seulement | ❌ pas de collecte ; **lien direct** dans le site (« 📰 Jeux des journaux ») |
+| L'Alsace | ne répond pas aux robots | ❌ lien direct dans le site |
 | Marques alimentaires (Oasis, Milka, LU, Haribo, Panzani, Herta, Président…) | pas de page listant leurs jeux | ⏸ leurs jeux arrivent via les annuaires |
 | Concoursmania | page vide (construite en JavaScript) | ⏸ |
 | Autres candidats (Pringles, Carrefour, Intermarché…) | pas de réponse exploitable lors du test | ⏸ |

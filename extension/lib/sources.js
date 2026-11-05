@@ -30,13 +30,13 @@ export const DEFAULT_SOURCES = [
 
   // --- Médias régionaux Alsace / Grand Est ---
   { id: 'dna', name: 'DNA – Dernières Nouvelles d\'Alsace', group: 'Média régional', kind: 'auto',
-    url: 'https://www.dna.fr/jeux-concours', enabled: false, note: 'robots.txt OK ; CGU à lire avant d\'activer.' },
+    url: 'https://www.dna.fr/jeux-concours', enabled: false, cguInterdit: true, note: 'CGU du groupe EBRA : collecte automatique interdite. À consulter soi-même.'activer.' },
   { id: 'lalsace', name: 'L\'Alsace', group: 'Média régional', kind: 'auto',
     url: 'https://www.lalsace.fr/jeux-concours', enabled: false, note: 'Adresse de la rubrique à confirmer.' },
   { id: 'estrepublicain', name: 'L\'Est Républicain', group: 'Média régional', kind: 'auto',
-    url: 'https://www.estrepublicain.fr/jeux-concours', enabled: false, note: 'Adresse de la rubrique à confirmer.' },
+    url: 'https://www.estrepublicain.fr/jeux-concours', enabled: false, cguInterdit: true, note: 'CGU du groupe EBRA : collecte automatique interdite. À consulter soi-même.' },
   { id: 'republicain-lorrain', name: 'Le Républicain Lorrain', group: 'Média régional', kind: 'auto',
-    url: 'https://www.republicain-lorrain.fr/jeux-concours', enabled: false, note: 'Adresse de la rubrique à confirmer.' },
+    url: 'https://www.republicain-lorrain.fr/jeux-concours', enabled: false, cguInterdit: true, note: 'CGU du groupe EBRA : collecte automatique interdite. À consulter soi-même.' },
   { id: 'ici-alsace', name: 'ici Alsace (ex-France Bleu)', group: 'Média régional', kind: 'auto',
     url: 'https://www.francebleu.fr/alsace', enabled: false, note: 'Les jeux sont souvent à l\'antenne : à vérifier.' },
 
