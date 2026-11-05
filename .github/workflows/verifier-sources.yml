@@ -4,6 +4,10 @@ name: Vérifier des sources
 
 on:
   workflow_dispatch:
+    inputs:
+      fichier:
+        description: "Fichier des sources à vérifier"
+        default: "site/candidats.json"
 
 permissions:
   contents: read
@@ -14,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Vérification
-        run: python3 python/collecteur.py --sources site/candidats.json --decouvrir rapport.json
+        run: python3 python/collecteur.py --sources "${{ inputs.fichier }}" --decouvrir rapport.json
       - uses: actions/upload-artifact@v4
         with:
           name: rapport-sources

@@ -1,0 +1,7 @@
+[
+ {"id": "dna", "name": "DNA", "url": "https://www.dna.fr/jeux-concours", "kind": "auto", "enabled": true},
+ {"id": "lalsace", "name": "L'Alsace", "url": "https://www.lalsace.fr/jeux-concours", "kind": "auto", "enabled": true},
+ {"id": "estrepublicain", "name": "L'Est Républicain", "url": "https://www.estrepublicain.fr/jeux-concours", "kind": "auto", "enabled": true},
+ {"id": "republicain-lorrain", "name": "Le Républicain Lorrain", "url": "https://www.republicain-lorrain.fr/jeux-concours", "kind": "auto", "enabled": true},
+ {"id": "vosgesmatin", "name": "Vosges Matin", "url": "https://www.vosgesmatin.fr/jeux-concours", "kind": "auto", "enabled": true}
+]

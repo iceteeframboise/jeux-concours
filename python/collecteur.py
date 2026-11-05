@@ -414,8 +414,10 @@ def run_verify(fetcher: Fetcher | None = None) -> list[dict]:
 
 
 CGU_WORDS = re.compile(r"[^.]{0,160}\b(extraction|extraire|aspiration|aspirer|robots?|scraping|crawl\w*|moissonn\w*|"
-                       r"collecte automatis\w*|automatis\w*|r[ée]utilisation)\b[^.]{0,160}", re.I)
+                       r"collecte automatis\w*|automatis\w*|r[ée]utilisation|reproduction|copie)\b[^.]{0,160}", re.I)
 CGU_LINK = ("cgu", "conditions g", "conditions d'utilisation", "mentions légales", "mentions legales", "legal")
+CGU_PATHS = ("/cgu", "/conditions-generales-d-utilisation", "/conditions-generales-utilisation",
+             "/mentions-legales", "/cgu-cgv", "/infos-legales")
 CONTEST_LINK = ("jeu", "concours", "gagne", "tirage", "instant gagnant", "promo")
 
 
@@ -447,13 +449,21 @@ def run_discover(report_path: Path | None = None, fetcher: Fetcher | None = None
                 if host in urllib.parse.urlsplit(a["href"]).netloc
                 and any(k in (a["text"] + " " + urllib.parse.urlsplit(a["href"]).path).lower() for k in CONTEST_LINK)
                 and len(a["text"]) < 60))[:6]
-            cgu = next((a["href"] for a in p.anchors if any(k in a["text"].lower() for k in CGU_LINK)), None)
-            r["cgu"] = cgu
-            if cgu and fetcher.robots_allows(cgu)[0]:
+            # Lien des CGU : dans la page, sinon adresses habituelles (certains sites le cachent derrière un bouton).
+            liens = [a["href"] for a in p.anchors
+                     if a["href"].startswith("http") and any(k in a["text"].lower() for k in CGU_LINK)]
+            origin = "{0.scheme}://{0.netloc}".format(urllib.parse.urlsplit(src["url"]))
+            liens += [origin + chemin for chemin in CGU_PATHS]
+            r["cgu"] = None
+            for cgu in dict.fromkeys(liens):
+                if not fetcher.robots_allows(cgu)[0]:
+                    continue
                 cs, ct = fetcher.get(cgu)
-                if cs < 400:
-                    hits = [" ".join(m.group(0).split()) for m in CGU_WORDS.finditer(strip_tags(ct))]
-                    r["cgu_extraits"] = hits[:3]
+                texte = strip_tags(ct)
+                if cs < 400 and re.search(r"conditions|mentions l[ée]gales|propri[ée]t[ée] intellectuelle", texte, re.I):
+                    r["cgu"] = cgu
+                    r["cgu_extraits"] = [" ".join(m.group(0).split()) for m in CGU_WORDS.finditer(texte)][:6]
+                    break
         except Exception as e:  # noqa: BLE001
             r["erreur"] = str(e)[:120]
         finally:

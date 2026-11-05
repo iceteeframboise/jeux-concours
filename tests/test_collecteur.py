@@ -41,7 +41,7 @@ class CollecteurTest(unittest.TestCase):
             "/robots.txt": "User-agent: *\nDisallow: /interdit\n",
             "/": '<html><head><link rel="alternate" type="application/rss+xml" href="/feed"></head>'
                  '<a href="/mentions">Mentions légales</a><a href="/jeux-concours">Nos jeux</a></html>',
-            "/mentions": "<p>Toute extraction automatisée du contenu par des robots est interdite. Contact.</p>",
+            "/mentions": "<h1>Mentions légales</h1><p>Toute extraction automatisée du contenu par des robots est interdite. Contact.</p>",
             "/feed": RSS,
             "/interdit": "<a href='/x'>Gagnez une voiture neuve</a>",
             "/page": "<a href='/jeux/1'>Gagnez un séjour en Alsace pour deux</a><a href='/contact'>Contact</a>"
